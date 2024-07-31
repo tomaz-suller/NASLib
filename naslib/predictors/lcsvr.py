@@ -7,11 +7,9 @@ from sklearn.svm import NuSVR
 from sklearn.linear_model import BayesianRidge
 from sklearn.ensemble import RandomForestRegressor
 import time
-from sklearn.model_selection import cross_val_score, train_test_split
+from sklearn.model_selection import cross_val_score
 import numpy as np
 from naslib.predictors.predictor import Predictor
-from scipy import stats
-import numpy as np
 
 from naslib.search_spaces.core.query_metrics import Metric
 

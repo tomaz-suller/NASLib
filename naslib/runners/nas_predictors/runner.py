@@ -1,10 +1,8 @@
 import logging
-import sys
-import naslib as nl
 
 from naslib.defaults.predictor_evaluator import PredictorEvaluator
 from naslib.defaults.trainer import Trainer
-from naslib.optimizers import Bananas, Npenas, OneShotNASOptimizer, RandomNASOptimizer
+from naslib.optimizers import Bananas, Npenas
 from naslib.predictors import OneShotPredictor
 
 from naslib.search_spaces import (
@@ -14,7 +12,7 @@ from naslib.search_spaces import (
     NasBenchNLPSearchSpace,
 )
 from naslib import utils
-from naslib.utils import setup_logger, get_dataset_api, get_project_root
+from naslib.utils import setup_logger, get_dataset_api
 
 config = utils.get_config_from_args(config_type="nas_predictor")
 

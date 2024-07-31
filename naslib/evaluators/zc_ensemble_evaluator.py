@@ -38,7 +38,7 @@ class ZCEnsembleEvaluator(object):
                 elif float("inf") == score:
                     score = 1e9
             else:
-                raise KeyError(f"key not found")
+                raise KeyError("key not found")
                 graph = self.search_space.clone()
                 graph.set_spec(encoding)
                 graph.parse()

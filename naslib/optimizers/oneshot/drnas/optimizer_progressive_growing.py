@@ -1,17 +1,13 @@
 import numpy as np
 import torch
 import logging
-from torch.autograd import Variable
 from torch.distributions.dirichlet import Dirichlet
 from torch.distributions.kl import kl_divergence
 import torch.nn.functional as F
 
 from naslib.search_spaces.core.primitives import MixedOp
 from naslib.optimizers.oneshot.darts.optimizer import DARTSOptimizer
-from naslib.utils import count_parameters_in_MB
-from naslib.search_spaces.core.query_metrics import Metric
 
-import naslib.search_spaces.core.primitives as ops
 
 logger = logging.getLogger(__name__)
 

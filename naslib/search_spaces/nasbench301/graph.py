@@ -22,7 +22,7 @@ from naslib.search_spaces.nasbench301.conversions import (
 )
 from naslib.utils.encodings import EncodingType
 from naslib.search_spaces.core.query_metrics import Metric
-from naslib.search_spaces.nasbench301.encodings import encode_darts, encode_darts_compact
+from naslib.search_spaces.nasbench301.encodings import encode_darts
 from .primitives import FactorizedReduce
 
 import torch.nn.functional as F

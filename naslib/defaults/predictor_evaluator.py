@@ -494,7 +494,7 @@ class PredictorEvaluator(object):
         metric="kendalltau",
         max_iters=5000,
     ):
-        logger.info(f"Starting cross validation")
+        logger.info("Starting cross validation")
         n_train = len(xtrain)
         split_indices = generate_kfold(n_train, 3)
         # todo: try to run this without copying the predictor

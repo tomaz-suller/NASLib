@@ -5,9 +5,7 @@ import logging
 import os
 import numpy as np
 import torch
-from tqdm import tqdm
 import copy
-import torch.nn as nn
 
 from naslib.search_spaces.core.query_metrics import Metric
 from naslib import utils

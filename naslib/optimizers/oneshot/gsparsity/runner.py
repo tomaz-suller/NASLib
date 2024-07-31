@@ -1,7 +1,5 @@
 import logging
 from pyexpat import model
-import sys
-import naslib as nl
 
 
 from naslib.defaults.trainer import Trainer
@@ -12,7 +10,6 @@ from naslib.optimizers import (
     RandomNASOptimizer,
     RandomSearch,
     RegularizedEvolution,
-    LocalSearch,
     Bananas,
     BasePredictor,
     GSparseOptimizer

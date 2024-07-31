@@ -1,7 +1,8 @@
 ##################################################
 # Copyright (c) Xuanyi Dong [GitHub D-X-Y], 2019 #
 ##################################################
-import math, torch
+import math
+import torch
 import torch.nn as nn
 from ..initialization import initialize_resnet
 from ..SharedUtils import additive_func

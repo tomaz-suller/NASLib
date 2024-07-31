@@ -20,7 +20,6 @@ if sys.version_info < (3, 3):
 else:
     sequence = collections.abc.Sequence
     Iterable = collections.abc.Iterable
-from pathlib import Path
 
 lib_dir = (Path(__file__).parent / '..').resolve()
 if str(lib_dir) not in sys.path:

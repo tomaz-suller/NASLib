@@ -1,5 +1,3 @@
-import logging
-import sys
 
 from naslib.defaults.trainer import Trainer
 from naslib.optimizers import (
@@ -14,10 +12,7 @@ from naslib.optimizers import (
 )
 
 from naslib.search_spaces import (
-    NasBench301SearchSpace,
     SimpleCellSearchSpace,
-    NasBench201SearchSpace,
-    HierarchicalSearchSpace,
 )
 
 # from naslib.search_spaces.nasbench101 import graph

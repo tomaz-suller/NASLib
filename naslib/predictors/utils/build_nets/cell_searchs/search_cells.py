@@ -1,10 +1,9 @@
 ##################################################
 # Copyright (c) Xuanyi Dong [GitHub D-X-Y], 2019 #
 ##################################################
-import math, random, torch
-import warnings
+import random
+import torch
 import torch.nn as nn
-import torch.nn.functional as F
 from copy import deepcopy
 from ..cell_operations import OPS
 

@@ -6,20 +6,15 @@ from __future__ import division
 from __future__ import print_function
 
 import logging
-import itertools
 import os
 import json
-import random
-import sys
 import math
 import numpy as np
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-import torch.optim as optim
-from torch.utils.data import DataLoader
 
-from naslib.utils import AverageMeterGroup, AverageMeter
+from naslib.utils import AverageMeter
 from naslib.predictors.predictor import Predictor
 from naslib.predictors.trees.ngb import loguniform
 from naslib.utils.encodings import EncodingType
@@ -673,7 +668,7 @@ class SemiNASPredictor(Predictor):
 
                 if up_sample_ratio is None:
                     up_sample_ratio = np.ceil(m / len(train_encoder_input)).astype(
-                        np.int
+                        int
                     )
                 else:
                     up_sample_ratio = up_sample_ratio

@@ -3,7 +3,6 @@ import torch
 import pyro
 import pyro.contrib.gp as gp
 import pyro.distributions as dist
-import numpy as np
 import os
 import json
 

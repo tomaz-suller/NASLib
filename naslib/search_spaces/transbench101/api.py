@@ -1,8 +1,5 @@
-import os
-import json
 import copy
 import torch
-import random
 
 
 class TransNASBenchAPI(object):
@@ -81,13 +78,13 @@ class TransNASBenchAPI(object):
             elif mode == 'list':
                 return metric_list
             else:
-                raise ValueError(f"get_metric() str mode can only be ['final', 'best', 'list']")
+                raise ValueError("get_metric() str mode can only be ['final', 'best', 'list']")
         elif isinstance(mode, int):
             assert mode < len(
                 metric_list), f"get_metric() int mode must < total epoch {len(metric_list)} for task {task}!"
             return metric_list[mode]
         else:
-            raise ValueError(f"get_metric() mode must be 'final', 'best', 'list' or epoch_number")
+            raise ValueError("get_metric() mode must be 'final', 'best', 'list' or epoch_number")
 
     def get_epoch_status(self, arch, task, epoch, xseed=None):
         assert isinstance(epoch, int), f"arg epoch {epoch} must be int"

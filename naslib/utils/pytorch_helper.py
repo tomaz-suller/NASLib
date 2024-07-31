@@ -1,4 +1,4 @@
-from typing import Optional, Callable, Iterator
+from typing import Iterator
 
 import torch.nn as nn
 import torch.optim as optim

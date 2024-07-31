@@ -15,7 +15,7 @@ from naslib.search_spaces.nasbench201.conversions import (
     convert_naslib_to_str,
     convert_op_indices_to_str,
 )
-from naslib.search_spaces.nasbench201.encodings import encode_201, encode_adjacency_one_hot_op_indices
+from naslib.search_spaces.nasbench201.encodings import encode_201
 from naslib.utils.encodings import EncodingType
 
 from .primitives import ResNetBasicblock

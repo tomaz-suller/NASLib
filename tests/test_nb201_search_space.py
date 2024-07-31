@@ -4,7 +4,6 @@ import numpy as np
 
 from naslib.search_spaces import NasBench201SearchSpace
 from naslib.search_spaces.core import Metric
-from naslib.search_spaces.core.primitives import AbstractPrimitive
 from naslib.search_spaces.nasbench201.conversions import *
 
 SPEC = (2, 2, 3, 4, 3, 2)

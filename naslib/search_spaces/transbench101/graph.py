@@ -20,7 +20,6 @@ from naslib.search_spaces.core.query_metrics import Metric
 from naslib.search_spaces.transbench101.conversions import (
     convert_op_indices_to_naslib,
     convert_naslib_to_op_indices,
-    convert_naslib_to_transbench101_micro,
     convert_op_indices_micro_to_str,
     convert_op_indices_macro_to_str,
     convert_op_indices_micro_to_model,
@@ -30,8 +29,7 @@ from naslib.search_spaces.transbench101.conversions import (
 from naslib.search_spaces.transbench101.loss import SoftmaxCrossEntropyWithLogits
 from naslib.search_spaces.transbench101.encodings import (
     encode_tb101,
-    encode_adjacency_one_hot_transbench_micro_op_indices,
-    encode_adjacency_one_hot_transbench_macro_op_indices
+    encode_adjacency_one_hot_transbench_micro_op_indices
 
 )
 from naslib.utils.encodings import EncodingType

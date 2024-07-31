@@ -1,6 +1,5 @@
 import unittest
 import numpy as np
-import torch
 from naslib.defaults.predictor_evaluator import PredictorEvaluator
 from naslib.search_spaces import NasBench201SearchSpace
 from naslib.predictors import BayesianLinearRegression, BOHAMIANN, GPPredictor, RandomForestPredictor, LGBoost, \

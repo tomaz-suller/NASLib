@@ -97,7 +97,7 @@ def find_measures_arrays(
                 done = False
                 if ds == inputs.shape[0] // 2:
                     raise ValueError(
-                        f"Can't split data anymore, but still unable to run. Something is wrong"
+                        "Can't split data anymore, but still unable to run. Something is wrong"
                     )
                 ds += 1
                 while inputs.shape[0] % ds != 0:

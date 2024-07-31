@@ -1,13 +1,14 @@
 ##################################################
 # Copyright (c) Xuanyi Dong [GitHub D-X-Y], 2019 #
 ##################################################
-import math, torch
+import math
+import torch
 from collections import OrderedDict
 from bisect import bisect_right
 import torch.nn as nn
 from ..initialization import initialize_resnet
 from ..SharedUtils import additive_func
-from .SoftSelect import select2withP, ChannelWiseInter
+from .SoftSelect import select2withP
 from .SoftSelect import linear_forward
 from .SoftSelect import get_width_choices
 

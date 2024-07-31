@@ -4,7 +4,7 @@ import networkx as nx
 
 from naslib.search_spaces.core import primitives as ops
 
-from naslib.search_spaces.core.graph import Graph, EdgeData
+from naslib.search_spaces.core.graph import Graph
 from .primitives import ConvBNReLU, DepthwiseConv
 
 

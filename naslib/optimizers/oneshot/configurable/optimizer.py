@@ -1,5 +1,4 @@
 
-from torch._C import device
 from naslib.optimizers.core.metaclasses import MetaOptimizer
 
 import torch

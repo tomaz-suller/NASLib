@@ -3,7 +3,6 @@
 ##########################################################################
 # Efficient Neural Architecture Search via Parameters Sharing, ICML 2018 #
 ##########################################################################
-import torch
 import torch.nn as nn
 from copy import deepcopy
 from ..cell_operations import ResNetBasicblock

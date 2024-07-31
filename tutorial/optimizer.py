@@ -1,4 +1,3 @@
-import torch
 
 from fvcore.common.config import CfgNode
 

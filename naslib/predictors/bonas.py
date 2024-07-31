@@ -4,10 +4,6 @@
 # One-shot Neural Architecture Search with BONAS
 # We added cosine annealing.
 
-import itertools
-import os
-import random
-import sys
 import math
 import numpy as np
 import torch
@@ -50,12 +46,12 @@ def add_global_node(mx, ifAdj):
     """add a global node to operation or adjacency matrixs, fill diagonal for adj and transpose adjs"""
     if ifAdj:
         mx = np.column_stack((mx, np.ones(mx.shape[0], dtype=np.float32)))
-        mx = np.row_stack((mx, np.zeros(mx.shape[1], dtype=np.float32)))
+        mx = np.vstack((mx, np.zeros(mx.shape[1], dtype=np.float32)))
         np.fill_diagonal(mx, 1)
         mx = mx.T
     else:
         mx = np.column_stack((mx, np.zeros(mx.shape[0], dtype=np.float32)))
-        mx = np.row_stack((mx, np.zeros(mx.shape[1], dtype=np.float32)))
+        mx = np.vstack((mx, np.zeros(mx.shape[1], dtype=np.float32)))
         mx[mx.shape[0] - 1][mx.shape[1] - 1] = 1
     return mx
 
@@ -64,10 +60,10 @@ def padzero(mx, ifAdj, maxsize=7):
     if ifAdj:
         while mx.shape[0] < maxsize:
             mx = np.column_stack((mx, np.zeros(mx.shape[0], dtype=np.float32)))
-            mx = np.row_stack((mx, np.zeros(mx.shape[1], dtype=np.float32)))
+            mx = np.vstack((mx, np.zeros(mx.shape[1], dtype=np.float32)))
     else:
         while mx.shape[0] < maxsize:
-            mx = np.row_stack((mx, np.zeros(mx.shape[1], dtype=np.float32)))
+            mx = np.vstack((mx, np.zeros(mx.shape[1], dtype=np.float32)))
     return mx
 
 

@@ -1,9 +1,7 @@
 import torch
 import torch.nn as nn
-from torch.autograd import Variable
 
 from abc import ABCMeta, abstractmethod
-import torchvision.models as models
 import math
 
 

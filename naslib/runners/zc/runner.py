@@ -1,7 +1,5 @@
 """ Evaluates a ZeroCost predictor for a search space and dataset/task"""
 import logging
-import json 
-from  fvcore.common.config import CfgNode
 from naslib.evaluators.zc_evaluator import ZeroCostPredictorEvaluator
 from naslib.predictors import ZeroCost
 from naslib.search_spaces import get_search_space

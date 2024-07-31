@@ -14,9 +14,7 @@
 # =============================================================================
 
 import torch
-import torch.nn.functional as F
 
-import copy
 
 from . import measure
 from ..p_utils import get_layer_metric_array

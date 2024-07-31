@@ -9,7 +9,7 @@
 from warnings import warn
 
 from collections import Counter
-from collections import Iterable
+from typing import Iterable
 
 from sklearn.exceptions import NotFittedError
 from sklearn.utils.validation import check_is_fitted
@@ -27,7 +27,6 @@ import numpy as np
 # Python 2/3 cross-compatibility import
 from six import iteritems
 from six import itervalues
-import torch
 
 
 class CustomVertexHistogram(Kernel):

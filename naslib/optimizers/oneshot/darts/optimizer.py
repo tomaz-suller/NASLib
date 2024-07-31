@@ -1,7 +1,6 @@
 import numpy as np
 import torch
 import logging
-from torch.autograd import Variable
 
 from naslib.search_spaces.core.primitives import MixedOp
 from naslib.optimizers.core.metaclasses import MetaOptimizer
@@ -9,7 +8,6 @@ from naslib.utils import count_parameters_in_MB
 from naslib.search_spaces.core.query_metrics import Metric
 from naslib.utils.pytorch_helper import create_optimizer, create_criterion
 
-import naslib.search_spaces.core.primitives as ops
 
 logger = logging.getLogger(__name__)
 

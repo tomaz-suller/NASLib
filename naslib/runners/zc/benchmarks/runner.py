@@ -77,7 +77,7 @@ for i, (idx, arch) in enumerate(archs_to_evaluate.items()):
 
         with open(output_file, 'w') as f:
             json.dump(zc_scores, f)
-    except Exception as e:
+    except Exception:
         logger.info(f'Failed to compute score for model {idx} with arch {arch}!')
 
 logger.info('Done.')

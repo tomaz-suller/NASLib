@@ -1,4 +1,3 @@
-import os
 import logging
 from naslib.defaults.trainer import Trainer
 from naslib.optimizers import DARTSOptimizer, GDASOptimizer, DrNASOptimizer

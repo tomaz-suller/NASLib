@@ -1,5 +1,4 @@
 import numpy as np
-from functools import wraps
 
 from ngboost import NGBRegressor
 from ngboost.distns import Normal

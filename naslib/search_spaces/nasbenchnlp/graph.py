@@ -1,19 +1,14 @@
-import os
-import pickle
 import numpy as np
-import json
 import copy
 import random
 import torch
-import torch.nn as nn
 
 from naslib.search_spaces.core.query_metrics import Metric
 from naslib.search_spaces.core.graph import Graph
 from naslib.search_spaces.nasbenchnlp.conversions import convert_recipe_to_compact, \
-make_compact_mutable, convert_compact_to_recipe
+make_compact_mutable
 from naslib.search_spaces.nasbenchnlp.encodings import encode_nlp
 from naslib.utils.encodings import EncodingType
-from naslib.utils import get_project_root
 
 
 HIDDEN_TUPLE_SIZE = 2

@@ -1,4 +1,5 @@
-import math, torch
+import math
+import torch
 from collections import OrderedDict
 from bisect import bisect_right
 import torch.nn as nn

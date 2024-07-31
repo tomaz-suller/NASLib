@@ -1,7 +1,9 @@
 ##################################################
 # Copyright (c) Xuanyi Dong [GitHub D-X-Y], 2019 #
 ##################################################
-import os, sys, hashlib
+import os
+import sys
+import hashlib
 import numpy as np
 from PIL import Image
 import torch.utils.data as data

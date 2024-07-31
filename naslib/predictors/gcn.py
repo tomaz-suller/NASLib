@@ -2,10 +2,6 @@
 # This is an implementation of gcn predictor for NAS from the paper:
 # Wen et al., 2019. Neural Predictor for Neural Architecture Search
 
-import itertools
-import os
-import random
-import sys
 import numpy as np
 import torch
 import torch.nn as nn

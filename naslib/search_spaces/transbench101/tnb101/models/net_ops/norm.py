@@ -1,9 +1,7 @@
 import torch.nn as nn
 import torch
 import torch.distributed as dist
-from torch import nn
 from torch.autograd.function import Function
-from torch.nn import functional as F
 
 
 def get_world_size() -> int:

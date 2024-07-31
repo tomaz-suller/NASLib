@@ -85,7 +85,7 @@ def get_nasbench301_api(dataset):
     # Load the nb301 performance and runtime models
     try:
         import nasbench301
-    except ModuleNotFoundError as e:
+    except ModuleNotFoundError:
         raise ModuleNotFoundError('No module named \'nasbench301\'. \
             Please install nasbench301 from https://github.com/automl/nasbench301@no_gin using `pip install git+https://github.com/automl/nasbench301@no_gin`')
 
@@ -149,7 +149,7 @@ def get_nlp_api(dataset=None):
     # Load the NAS-Bench-NLP11 performance model
     try:
         import nasbench301
-    except ModuleNotFoundError as e:
+    except ModuleNotFoundError:
         raise ModuleNotFoundError('No module named \'nasbench301\'. \
             Please install nasbench301 from https://github.com/crwhite14/nasbench301')
 
@@ -175,7 +175,7 @@ def get_asr_api(dataset=None):
 def get_natsbenchsize_api(dataset=None):
     try:
         from nats_bench import create
-    except ModuleNotFoundError as e:
+    except ModuleNotFoundError:
         raise ModuleNotFoundError('No module named \'nats_bench\'. \
             Please install nats_bench from https://github.com/D-X-Y/NATS-Bench')
 

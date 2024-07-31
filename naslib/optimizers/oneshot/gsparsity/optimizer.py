@@ -1,12 +1,5 @@
-from dataclasses import replace
-from distutils.command.config import config
-from locale import normalize
 import logging
-from turtle import pos, position
-from matplotlib.colors import NoNorm
-import torch.nn.utils.parametrize as P
 import torch
-from collections.abc import Iterable
 
 from naslib.search_spaces.core.primitives import MixedOp
 from naslib.optimizers.core.metaclasses import MetaOptimizer
@@ -14,7 +7,6 @@ from naslib.utils import count_parameters_in_MB
 from naslib.search_spaces.core.query_metrics import Metric
 
 from naslib.optimizers.oneshot.gsparsity.ProxSGD_for_groups import ProxSGD
-import naslib.search_spaces.core.primitives as primitives
 
 import numpy as np
 
@@ -228,7 +220,7 @@ class GSparseOptimizer(MetaOptimizer):
                             try:                                
                                 group_dim += torch.numel(edge.data.op.primitives[i].op[j].weight)
                                 weight+= (torch.norm(edge.data.op.primitives[i].op[j].weight,2)**2).item()
-                            except (AttributeError, TypeError) as e:
+                            except (AttributeError, TypeError):
                                 try:
                                     for k in range(len(edge.data.op.primitives[i].op[j].op)):                                
                                         group_dim += torch.numel(edge.data.op.primitives[i].op[j].op[k].weight)
@@ -354,7 +346,7 @@ class GSparseOptimizer(MetaOptimizer):
                             try:
                                 group_dim += torch.numel(edge.data.op.primitives[i].op[j].weight)
                                 weight+= (torch.norm(edge.data.op.primitives[i].op[j].weight,2)**2).item()
-                            except (AttributeError, TypeError) as e:
+                            except (AttributeError, TypeError):
                                 try:
                                     for k in range(len(edge.data.op.primitives[i].op[j].op)):
                                         group_dim += torch.numel(edge.data.op.primitives[i].op[j].op[k].weight)

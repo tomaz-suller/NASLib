@@ -13,11 +13,7 @@
 # limitations under the License.
 # =============================================================================
 
-import os
-import argparse
-import torch
 import torch.nn as nn
-import torch.nn.functional as F
 from .nasbench2_ops import *
 
 

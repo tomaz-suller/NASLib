@@ -3,7 +3,7 @@
 ##############################################################################
 # Random Search and Reproducibility for Neural Architecture Search, UAI 2019 #
 ##############################################################################
-import torch, random
+import random
 import torch.nn as nn
 from copy import deepcopy
 from ..cell_operations import ResNetBasicblock

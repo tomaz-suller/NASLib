@@ -1,6 +1,4 @@
-import collections
 import logging
-from re import M
 import torch
 import copy
 import numpy as np
@@ -12,12 +10,10 @@ from naslib.optimizers.discrete.bananas.acquisition_functions import (
 
 from naslib.predictors.ensemble import Ensemble
 from naslib.predictors.zerocost import ZeroCost
-from naslib.predictors.utils.encodings import encode_spec
 
 from naslib.search_spaces.core.query_metrics import Metric
 
-from naslib.utils import AttrDict, count_parameters_in_MB, get_train_val_loaders
-from naslib.utils.log import log_every_n_seconds
+from naslib.utils import count_parameters_in_MB, get_train_val_loaders
 
 
 logger = logging.getLogger(__name__)

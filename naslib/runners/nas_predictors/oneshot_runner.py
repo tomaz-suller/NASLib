@@ -1,6 +1,4 @@
 import logging
-import sys
-import naslib as nl
 
 from naslib.defaults.predictor_evaluator import PredictorEvaluator
 from naslib.defaults.trainer import Trainer
@@ -14,7 +12,6 @@ from naslib.search_spaces import (
 )
 from naslib import utils
 from naslib.utils import setup_logger, get_dataset_api
-from naslib.utils import get_project_root
 
 
 config = utils.get_config_from_args(config_type="oneshot")

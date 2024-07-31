@@ -3,7 +3,8 @@
 ######################################################################################
 # One-Shot Neural Architecture Search via Self-Evaluated Template Network, ICCV 2019 #
 ######################################################################################
-import torch, random
+import torch
+import random
 import torch.nn as nn
 from copy import deepcopy
 from ..cell_operations import ResNetBasicblock
