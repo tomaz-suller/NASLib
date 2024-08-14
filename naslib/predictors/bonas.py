@@ -185,7 +185,6 @@ class BonasPredictor(Predictor):
         return predictor
 
     def fit(self, xtrain, ytrain, train_info=None, epochs=100, wd=0):
-
         if self.hyperparams is None:
             self.hyperparams = self.default_hyperparams.copy()
 
@@ -244,10 +243,7 @@ class BonasPredictor(Predictor):
 
     def query(self, xtest, info=None, eval_batch_size=100):
         test_data = np.array(
-            [
-                arch.encode(encoding_type=self.encoding_type)
-                for arch in xtest
-            ]
+            [arch.encode(encoding_type=self.encoding_type) for arch in xtest]
         )
         test_data_loader = DataLoader(
             test_data, batch_size=eval_batch_size, drop_last=False
@@ -265,7 +261,6 @@ class BonasPredictor(Predictor):
         return pred * self.std + self.mean
 
     def set_random_hyperparams(self):
-
         if self.hyperparams is None:
             params = self.default_hyperparams.copy()
 

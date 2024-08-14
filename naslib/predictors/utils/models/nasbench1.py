@@ -80,7 +80,6 @@ class Network(nn.Module):
         return out
 
     def get_prunable_copy(self, bn=False):
-
         model_new = Network(
             self.spec,
             self.stem_out,

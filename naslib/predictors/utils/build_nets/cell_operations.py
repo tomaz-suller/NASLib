@@ -46,7 +46,11 @@ OPS = {
         affine,
         track_running_stats,
     ),
-    "dua_sepc_3x3": lambda C_in, C_out, stride, affine, track_running_stats: DualSepConv(
+    "dua_sepc_3x3": lambda C_in,
+    C_out,
+    stride,
+    affine,
+    track_running_stats: DualSepConv(
         C_in,
         C_out,
         (3, 3),
@@ -56,7 +60,11 @@ OPS = {
         affine,
         track_running_stats,
     ),
-    "dua_sepc_5x5": lambda C_in, C_out, stride, affine, track_running_stats: DualSepConv(
+    "dua_sepc_5x5": lambda C_in,
+    C_out,
+    stride,
+    affine,
+    track_running_stats: DualSepConv(
         C_in,
         C_out,
         (5, 5),
@@ -241,7 +249,6 @@ class ResNetBasicblock(nn.Module):
         return string
 
     def forward(self, inputs):
-
         basicblock = self.conv_a(inputs)
         basicblock = self.conv_b(basicblock)
 

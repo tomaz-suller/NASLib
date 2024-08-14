@@ -11,19 +11,19 @@ SPEC = (2, 2, 3, 4, 3, 2)
 
 def create_dummy_api():
     api = {
-        'nb201_data': {
-            '|avg_pool_3x3~0|+|nor_conv_1x1~0|skip_connect~1|+|nor_conv_1x1~0|skip_connect~1|skip_connect~2|': {
-                'cifar10-valid': {
-                    'train_losses': [float(i) for i in range(199, 0, -1)],
-                    'eval_losses': [float(i) for i in range(299, 100, -1)],
-                    'train_acc1es': [float(i / 2) for i in range(0, 200, 1)],
-                    'eval_acc1es': [float(i / 3) for i in range(0, 200, 1)],
-                    'cost_info': {
-                        'flops': 15.64737,
-                        'params': 0.129306,
-                        'latency': 0.0139359758611311,
-                        'train_time': 7.221092998981476
-                    }
+        "nb201_data": {
+            "|avg_pool_3x3~0|+|nor_conv_1x1~0|skip_connect~1|+|nor_conv_1x1~0|skip_connect~1|skip_connect~2|": {
+                "cifar10-valid": {
+                    "train_losses": [float(i) for i in range(199, 0, -1)],
+                    "eval_losses": [float(i) for i in range(299, 100, -1)],
+                    "train_acc1es": [float(i / 2) for i in range(0, 200, 1)],
+                    "eval_acc1es": [float(i / 3) for i in range(0, 200, 1)],
+                    "cost_info": {
+                        "flops": 15.64737,
+                        "params": 0.129306,
+                        "latency": 0.0139359758611311,
+                        "train_time": 7.221092998981476,
+                    },
                 }
             }
         }
@@ -40,7 +40,6 @@ def create_model(spec, n_classes=10):
 
 
 class NasBench201SearchSpaceTest(unittest.TestCase):
-
     def test_set_and_get_spec(self):
         graph = NasBench201SearchSpace()
         spec = (2, 2, 3, 4, 3, 2)
@@ -82,7 +81,6 @@ class NasBench201SearchSpaceTest(unittest.TestCase):
 
         self.assertEqual(new_spec, retrieved_spec)
 
-
     def test_sample_random_architecture(self):
         graph = NasBench201SearchSpace()
         np.random.seed(9001)
@@ -108,7 +106,7 @@ class NasBench201SearchSpaceTest(unittest.TestCase):
         graph.sample_random_architecture(dataset_api=create_dummy_api())
 
         try:
-            results = graph.query(metric=Metric.VAL_ACCURACY, dataset='cifar10')
+            results = graph.query(metric=Metric.VAL_ACCURACY, dataset="cifar10")
         except Exception as e:
             assert isinstance(e, NotImplementedError)
 
@@ -117,36 +115,42 @@ class NasBench201SearchSpaceTest(unittest.TestCase):
         graph.set_spec((4, 3, 3, 0, 0, 0))
 
         api = create_dummy_api()
-        api_data = api['nb201_data'][
-            '|avg_pool_3x3~0|+|nor_conv_1x1~0|skip_connect~1|+|nor_conv_1x1~0|skip_connect~1|skip_connect~2|'][
-            'cifar10-valid']
+        api_data = api["nb201_data"][
+            "|avg_pool_3x3~0|+|nor_conv_1x1~0|skip_connect~1|+|nor_conv_1x1~0|skip_connect~1|skip_connect~2|"
+        ]["cifar10-valid"]
 
-        val_acc = graph.query(Metric.VAL_ACCURACY, 'cifar10', dataset_api=api)
-        self.assertEqual(val_acc, api_data['eval_acc1es'][-1])
+        val_acc = graph.query(Metric.VAL_ACCURACY, "cifar10", dataset_api=api)
+        self.assertEqual(val_acc, api_data["eval_acc1es"][-1])
 
-        val_loss = graph.query(Metric.VAL_LOSS, 'cifar10', dataset_api=api)
-        self.assertEqual(val_loss, api_data['eval_losses'][-1])
+        val_loss = graph.query(Metric.VAL_LOSS, "cifar10", dataset_api=api)
+        self.assertEqual(val_loss, api_data["eval_losses"][-1])
 
-        train_acc = graph.query(Metric.TRAIN_ACCURACY, 'cifar10', dataset_api=api)
-        self.assertEqual(train_acc, api_data['train_acc1es'][-1])
+        train_acc = graph.query(Metric.TRAIN_ACCURACY, "cifar10", dataset_api=api)
+        self.assertEqual(train_acc, api_data["train_acc1es"][-1])
 
-        train_loss = graph.query(Metric.TRAIN_LOSS, 'cifar10', dataset_api=api)
-        self.assertEqual(train_loss, api_data['train_losses'][-1])
+        train_loss = graph.query(Metric.TRAIN_LOSS, "cifar10", dataset_api=api)
+        self.assertEqual(train_loss, api_data["train_losses"][-1])
 
-        val_acc_full = graph.query(Metric.VAL_ACCURACY, 'cifar10', dataset_api=api, full_lc=True)
-        self.assertEqual(tuple(val_acc_full), tuple(api_data['eval_acc1es']))
+        val_acc_full = graph.query(
+            Metric.VAL_ACCURACY, "cifar10", dataset_api=api, full_lc=True
+        )
+        self.assertEqual(tuple(val_acc_full), tuple(api_data["eval_acc1es"]))
 
-        val_acc_partial = graph.query(Metric.VAL_ACCURACY, 'cifar10', dataset_api=api, full_lc=True, epoch=50)
-        self.assertEqual(tuple(val_acc_partial), tuple(api_data['eval_acc1es'][:50]))
+        val_acc_partial = graph.query(
+            Metric.VAL_ACCURACY, "cifar10", dataset_api=api, full_lc=True, epoch=50
+        )
+        self.assertEqual(tuple(val_acc_partial), tuple(api_data["eval_acc1es"][:50]))
 
-        val_acc_50 = graph.query(Metric.VAL_ACCURACY, 'cifar10', dataset_api=api, full_lc=False, epoch=50)
-        self.assertEqual(val_acc_50, api_data['eval_acc1es'][50])
+        val_acc_50 = graph.query(
+            Metric.VAL_ACCURACY, "cifar10", dataset_api=api, full_lc=False, epoch=50
+        )
+        self.assertEqual(val_acc_50, api_data["eval_acc1es"][50])
 
-        hp = graph.query(Metric.HP, 'cifar10', dataset_api=api)
-        self.assertEqual(hp, api_data['cost_info'])
+        hp = graph.query(Metric.HP, "cifar10", dataset_api=api)
+        self.assertEqual(hp, api_data["cost_info"])
 
-        train_time = graph.query(Metric.TRAIN_TIME, 'cifar10', dataset_api=api)
-        self.assertEqual(train_time, api_data['cost_info']['train_time'])
+        train_time = graph.query(Metric.TRAIN_TIME, "cifar10", dataset_api=api)
+        self.assertEqual(train_time, api_data["cost_info"]["train_time"])
 
     def test_get_arch_iterator(self):
         graph = NasBench201SearchSpace()
@@ -203,6 +207,5 @@ class NasBench201SearchSpaceTest(unittest.TestCase):
         self.assertEqual(convert_naslib_to_str(graph1), convert_naslib_to_str(graph2))
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()
-

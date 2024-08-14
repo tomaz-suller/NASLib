@@ -33,7 +33,6 @@ def discretize(x, upper_bounds=None, one_hot=True):
 
 
 def get_lce_bins(train_info, key="TRAIN_LOSS_lc", max_bins=9):
-
     train_size = len(train_info)
     losses = sorted([i[key][-1] for i in train_info])
     n = min(max_bins, max(1, train_size // 5))
@@ -45,7 +44,6 @@ def get_lce_bins(train_info, key="TRAIN_LOSS_lc", max_bins=9):
 
 
 def get_bins(zero_cost, train_size, ss_type, dataset):
-
     if ss_type == "nasbench201" and dataset == "cifar10" and zero_cost == "jacov":
         # precomputation based on 100 jacov values (366 sec on a CPU)
         if train_size <= 10:

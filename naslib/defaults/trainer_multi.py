@@ -361,7 +361,6 @@ class Trainer(object):
             # Validation queue
             if self.valid_queue:
                 for i, (input_valid, target_valid) in enumerate(self.valid_queue):
-
                     input_valid = input_valid.to(self.device).float()
                     target_valid = target_valid.to(
                         self.device, non_blocking=True
@@ -485,9 +484,7 @@ class Trainer(object):
 
             logger.info(
                 "Evaluation finished. Test accuracies: top-1 = {:.5}, \
-                        top-5 = {:.5}".format(
-                    top1.avg, top5.avg
-                )
+                        top-5 = {:.5}".format(top1.avg, top5.avg)
             )
 
     @staticmethod
@@ -599,7 +596,7 @@ class Trainer(object):
             save_dir=self.config.save + "/search"
             if search
             else self.config.save + "/eval",
-            **checkpointables
+            **checkpointables,
         )
 
         self.periodic_checkpointer = PeriodicCheckpointer(

@@ -9,20 +9,19 @@ from naslib.utils.encodings import EncodingType
 
 
 def main(args):
-
-    if args.config_type == 'bbo-bs':
+    if args.config_type == "bbo-bs":
         args.start_seed = int(args.start_seed)
         args.trials = int(args.trials)
         num_config = 10
-        
+
         # first generate the default config at config 0
         config_id = 0
-        
+
         base_folder = os.path.abspath(os.path.join(os.getcwd(), os.pardir))
 
         folder = f"{base_folder}/naslib/configs/bbo/configs_cpu/{args.search_space}/{args.dataset}/{args.optimizer}/config_{config_id}"
-        os.makedirs(folder, exist_ok=True)       
-            
+        os.makedirs(folder, exist_ok=True)
+
         for seed in range(args.start_seed, args.start_seed + args.trials):
             np.random.seed(seed)
             random.seed(seed)
@@ -38,7 +37,7 @@ def main(args):
                     "sample_size": 10,
                     "population_size": 50,
                     "num_init": 10,
-                    "k":10,
+                    "k": 10,
                     "num_ensemble": 3,
                     "acq_fn_type": "its",
                     "num_arches_to_mutate": 1,
@@ -68,8 +67,7 @@ def main(args):
         for config_id in range(1, num_config):
             folder = f"{base_folder}/naslib/configs/bbo/configs_cpu/{args.search_space}/{args.dataset}/{args.optimizer}/config_{config_id}"
             os.makedirs(folder, exist_ok=True)
-            
-            
+
             for seed in range(args.start_seed, args.start_seed + args.trials):
                 np.random.seed(seed)
                 random.seed(seed)
@@ -88,7 +86,7 @@ def main(args):
                         "sample_size": int(np.random.choice(range(5, 100))),
                         "population_size": int(np.random.choice(range(5, 100))),
                         "num_init": int(np.random.choice(range(5, 100))),
-                        "k":int(np.random.choice(range(10, 50))),
+                        "k": int(np.random.choice(range(10, 50))),
                         "num_ensemble": 3,
                         "acq_fn_type": "its",
                         "acq_fn_optimization": args.acq_fn_optimization,
@@ -101,14 +99,15 @@ def main(args):
                     },
                 }
 
-
                 path = folder + f"/seed_{seed}.yaml"
 
                 with open(path, "w") as fh:
                     yaml.dump(config, fh)
-    
+
     elif args.config_type == "predictor-bs":
-        folder = f"naslib/configs/predictors-bs/configs_{args.search_space}/{args.dataset}"
+        folder = (
+            f"naslib/configs/predictors-bs/configs_{args.search_space}/{args.dataset}"
+        )
         os.makedirs(folder, exist_ok=True)
         args.start_seed = int(args.start_seed)
         args.trials = int(args.trials)
@@ -382,8 +381,12 @@ if __name__ == "__main__":
     parser.add_argument("--start_seed", type=int, default=0, help="starting seed")
     parser.add_argument("--trials", type=int, default=100, help="Number of trials")
     parser.add_argument("--optimizer", type=str, default="rs", help="which optimizer")
-    parser.add_argument("--predictor_type", type=str, default="full", help="which predictor")
-    parser.add_argument("--predictor", type=str, default="bananas", help="which predictor")
+    parser.add_argument(
+        "--predictor_type", type=str, default="full", help="which predictor"
+    )
+    parser.add_argument(
+        "--predictor", type=str, default="bananas", help="which predictor"
+    )
     parser.add_argument(
         "--test_size", type=int, default=30, help="Test set size for predictor"
     )
@@ -402,9 +405,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "--fidelity_single", type=int, default=5, help="Fidelity if exp type is single"
     )
-    parser.add_argument(
-        "--fidelity", type=int, default=200, help="Fidelity"
-    )
+    parser.add_argument("--fidelity", type=int, default=200, help="Fidelity")
     parser.add_argument(
         "--acq_fn_optimization", type=str, default="mutation", help="acq_fn"
     )
@@ -420,7 +421,10 @@ if __name__ == "__main__":
         "--config_type", type=str, default="nas", help="nas or predictor?"
     )
     parser.add_argument(
-        "--search_space", type=str, default="nasbench201", help="nasbench201 or nasbench301?"
+        "--search_space",
+        type=str,
+        default="nasbench201",
+        help="nasbench201 or nasbench301?",
     )
     parser.add_argument(
         "--experiment_type", type=str, default="single", help="type of experiment"
@@ -429,19 +433,34 @@ if __name__ == "__main__":
         "--run_acc_stats", type=int, default=1, help="run accuracy statistics"
     )
     parser.add_argument(
-        "--max_set_size", type=int, default=10000, help="size of val_acc stat computation"
-    )    
-    parser.add_argument(
-        "--run_nbhd_size", type=int, default=1, help="run experiment to compute nbhd size"
-    )    
-    parser.add_argument(
-        "--max_nbhd_trials", type=int, default=1000, help="size of nbhd size computation"
+        "--max_set_size",
+        type=int,
+        default=10000,
+        help="size of val_acc stat computation",
     )
     parser.add_argument(
-        "--run_autocorr", type=int, default=1, help="run experiment to compute autocorrelation"
+        "--run_nbhd_size",
+        type=int,
+        default=1,
+        help="run experiment to compute nbhd size",
     )
     parser.add_argument(
-        "--max_autocorr_trials", type=int, default=10, help="number of autocorrelation trials"
+        "--max_nbhd_trials",
+        type=int,
+        default=1000,
+        help="size of nbhd size computation",
+    )
+    parser.add_argument(
+        "--run_autocorr",
+        type=int,
+        default=1,
+        help="run experiment to compute autocorrelation",
+    )
+    parser.add_argument(
+        "--max_autocorr_trials",
+        type=int,
+        default=10,
+        help="number of autocorrelation trials",
     )
     parser.add_argument(
         "--autocorr_size", type=int, default=36, help="size of autocorrelation to test"
@@ -449,14 +468,12 @@ if __name__ == "__main__":
     parser.add_argument(
         "--walks", type=int, default=1000, help="number of random walks"
     )
-    parser.add_argument(
-        "--max_hpo_time", type=int, default=3000, help="HPO time"
-    )
+    parser.add_argument("--max_hpo_time", type=int, default=3000, help="HPO time")
 
     parser.add_argument(
-        "--zerocost", type=str, default='none', help="ZeroCost proxy source"
+        "--zerocost", type=str, default="none", help="ZeroCost proxy source"
     )
-    
+
     args = parser.parse_args()
 
     main(args)

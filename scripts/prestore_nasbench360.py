@@ -19,6 +19,7 @@ def write_pickle(data: Dict[AnyStr, Any], filename: AnyStr):
     with open(filename, "wb") as f:
         pickle.dump(data, f)
 
+
 def process_ninapro(filepath, output):
     data = read_pickle(filepath)
     new_database = {}
@@ -30,17 +31,30 @@ def process_ninapro(filepath, output):
             "flops": info["flop"],
             "params": info["params"],
             "latency": info["latency"],
-            "train_time": info["train_times"][0]
+            "train_time": info["train_times"][0],
         }
         eval_name = info["eval_names"][0]
-        new_database[archstr] = {"ninapro": {
-            "train_losses": [info["train_losses"][i] for i in range(info["epochs"])],
-            "eval_losses": [info["eval_losses"][f"{eval_name}@{i}"] for i in range(info["epochs"])],
-            "train_acc1es": [info["train_acc1es"][i] for i in range(info["epochs"])],
-            "eval_acc1es": [info["eval_acc1es"][f"{eval_name}@{i}"] for i in range(info["epochs"])],
-            "cost_info": cost_info
-        }}
+        new_database[archstr] = {
+            "ninapro": {
+                "train_losses": [
+                    info["train_losses"][i] for i in range(info["epochs"])
+                ],
+                "eval_losses": [
+                    info["eval_losses"][f"{eval_name}@{i}"]
+                    for i in range(info["epochs"])
+                ],
+                "train_acc1es": [
+                    info["train_acc1es"][i] for i in range(info["epochs"])
+                ],
+                "eval_acc1es": [
+                    info["eval_acc1es"][f"{eval_name}@{i}"]
+                    for i in range(info["epochs"])
+                ],
+                "cost_info": cost_info,
+            }
+        }
     write_pickle(new_database, output)
+
 
 def main(input, output):
     # process ninapro
@@ -51,10 +65,24 @@ def main(input, output):
         print(f"Ninapro is not in {input}")
 
 
-if __name__ == '__main__':
-    parcer = argparse.ArgumentParser("Evaluation data convertor for NinaPro and Darcyflow.")
-    parcer.add_argument("-i", "--input", type=str, required=True, help="Folder with downloaded and unpacked (.pickle) evaluations")
-    parcer.add_argument("-o", "--output", type=str, default="naslib/data", help="Folder to output results")
+if __name__ == "__main__":
+    parcer = argparse.ArgumentParser(
+        "Evaluation data convertor for NinaPro and Darcyflow."
+    )
+    parcer.add_argument(
+        "-i",
+        "--input",
+        type=str,
+        required=True,
+        help="Folder with downloaded and unpacked (.pickle) evaluations",
+    )
+    parcer.add_argument(
+        "-o",
+        "--output",
+        type=str,
+        default="naslib/data",
+        help="Folder to output results",
+    )
 
     args = parcer.parse_args()
 

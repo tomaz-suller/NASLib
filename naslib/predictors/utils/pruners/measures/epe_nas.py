@@ -30,6 +30,7 @@ import numpy as np
 
 from . import measure
 
+
 def get_batch_jacobian(net, x, target, to, device, args=None):
     net.zero_grad()
 
@@ -42,13 +43,14 @@ def get_batch_jacobian(net, x, target, to, device, args=None):
 
     return jacob, target.detach(), y.shape[-1]
 
+
 def eval_score_perclass(jacob, labels=None, n_classes=10):
     k = 1e-5
 
-    per_class={}
+    per_class = {}
     for i, label in enumerate(labels[0]):
         if label in per_class:
-            per_class[label] = np.vstack((per_class[label],jacob[i]))
+            per_class[label] = np.vstack((per_class[label], jacob[i]))
         else:
             per_class[label] = jacob[i]
 
@@ -58,10 +60,10 @@ def eval_score_perclass(jacob, labels=None, n_classes=10):
         try:
             corrs = np.array(np.corrcoef(per_class[c]))
 
-            s = np.sum(np.log(abs(corrs)+k))#/len(corrs)
+            s = np.sum(np.log(abs(corrs) + k))  # /len(corrs)
             if n_classes > 100:
                 s /= len(corrs)
-        except: # defensive programming
+        except:  # defensive programming
             continue
         ind_corr_matrix_score[c] = s
 
@@ -69,7 +71,6 @@ def eval_score_perclass(jacob, labels=None, n_classes=10):
     score = 0
     ind_corr_matrix_score_keys = ind_corr_matrix_score.keys()
     if n_classes <= 100:
-
         for c in ind_corr_matrix_score_keys:
             # B)
             score += np.absolute(ind_corr_matrix_score[c])
@@ -77,7 +78,9 @@ def eval_score_perclass(jacob, labels=None, n_classes=10):
         for c in ind_corr_matrix_score_keys:
             # A)
             for cj in ind_corr_matrix_score_keys:
-                score += np.absolute(ind_corr_matrix_score[c]-ind_corr_matrix_score[cj])
+                score += np.absolute(
+                    ind_corr_matrix_score[c] - ind_corr_matrix_score[cj]
+                )
 
         if len(ind_corr_matrix_score_keys) > 0:
             # should divide by number of classes seen
@@ -92,11 +95,12 @@ def compute_epe_score(net, inputs, targets, loss_fn, split_data=1):
     labels = []
 
     try:
-
-        jacobs_batch, target, n_classes = get_batch_jacobian(net, inputs, targets, None, None)
+        jacobs_batch, target, n_classes = get_batch_jacobian(
+            net, inputs, targets, None, None
+        )
         jacobs.append(jacobs_batch.reshape(jacobs_batch.size(0), -1).cpu().numpy())
 
-        if len(target.shape) == 2: # Hack to handle TNB101 classification tasks
+        if len(target.shape) == 2:  # Hack to handle TNB101 classification tasks
             target = torch.argmax(target, dim=1)
 
         labels.append(target.cpu().numpy())

@@ -1,4 +1,3 @@
-
 from fvcore.common.config import CfgNode
 
 from naslib.optimizers.core.metaclasses import MetaOptimizer
@@ -9,12 +8,13 @@ from naslib.utils import get_train_val_loaders
 
 # Import whatever else you want from NASLib
 
+
 class AwesomeOptimizer(MetaOptimizer):
     """
     Implement your own awesome optimizer here.
 
     This optimizer inherits from RandomSearch purely for convenience. Your search
-    method does not have to be random at all. Feel free to write your own logic, and add 
+    method does not have to be random at all. Feel free to write your own logic, and add
     any new methods that you need for it.
     """
 
@@ -29,7 +29,7 @@ class AwesomeOptimizer(MetaOptimizer):
         # These two lists are required
         self.sampled_archs = []
         self.history = []
-        
+
         self.performance_metric = Metric.VAL_ACCURACY
         # You can add more properties to the config file and read them if you want
         self.dataset = config.dataset
@@ -37,20 +37,19 @@ class AwesomeOptimizer(MetaOptimizer):
 
         # A few things that might be useful to you. Add/remove code as you wish.
         self.train_dataloader = get_train_val_loaders(config)[0]
-        self.zerocostpredictor = ZeroCost(method_type='l2_norm')
+        self.zerocostpredictor = ZeroCost(method_type="l2_norm")
 
         ###########################################################
         ##################### START TODO ##########################
 
-
         # Need more stuff in your initializer? Write them here!
-
 
         ##################### END TODO  ##########################
         ##########################################################
 
-
-    def adapt_search_space(self, search_space: Graph, scope: str = None, dataset_api: dict = None):
+    def adapt_search_space(
+        self, search_space: Graph, scope: str = None, dataset_api: dict = None
+    ):
         """
         This method has to be called with the search_space and the nas benchmark api before the optimizer
         can be used.
@@ -62,7 +61,6 @@ class AwesomeOptimizer(MetaOptimizer):
         """
         self.search_space = search_space.clone()
         self.dataset_api = dataset_api
-
 
     def new_epoch(self, epoch: int):
         """
@@ -86,20 +84,20 @@ class AwesomeOptimizer(MetaOptimizer):
         # self.sampled_archs.append(model)
         # self._update_history(model)
 
-        # All it does 
+        # All it does
 
         ###########################################################
         ##################### START TODO ##########################
 
-
         # Write your logic here
         # Also feel free to write new methods in this class
-
 
         ##################### END TODO  ##########################
         ##########################################################
 
-        self.sampled_archs.append(model) # This line is required. Add your chosen model to sampled_archs here.
+        self.sampled_archs.append(
+            model
+        )  # This line is required. Add your chosen model to sampled_archs here.
 
     def get_final_architecture(self):
         """
@@ -108,7 +106,6 @@ class AwesomeOptimizer(MetaOptimizer):
         return max(self.sampled_archs, key=lambda x: x.accuracy).arch
 
     def train_statistics(self, report_incumbent: bool = True):
-
         if report_incumbent:
             best_arch = self.get_final_architecture()
         else:
@@ -135,8 +132,8 @@ class AwesomeOptimizer(MetaOptimizer):
 
     def _update_history(self, child):
         """
-            We want to maintain only the history of the 100 best models in self.history
-            (self.sampled_archs stores the list of all models sampled.)
+        We want to maintain only the history of the 100 best models in self.history
+        (self.sampled_archs stores the list of all models sampled.)
         """
         if len(self.history) < 100:
             self.history.append(child)

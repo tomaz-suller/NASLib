@@ -5,7 +5,6 @@
 # Modified by: Xingchen Wan @ University of Oxford for
 # Ru, B., Wan, X., et al., 2021. "Interpretable Neural Architecture Search via Bayesian Optimisation using Weisfiler-Lehman Kernels". In ICLR 2021.
 
-
 from warnings import warn
 
 from collections import Counter
@@ -124,7 +123,7 @@ class CustomVertexHistogram(Kernel):
             elif self._method_calling == 3:
                 labels = dict(self._labels)
             ni = 0
-            for (i, x) in enumerate(iter(X)):
+            for i, x in enumerate(iter(X)):
                 is_iter = isinstance(x, Iterable)
                 if is_iter:
                     x = list(x)
@@ -147,7 +146,7 @@ class CustomVertexHistogram(Kernel):
                     )
 
                 # construct the data input for the numpy array
-                for (label, frequency) in iteritems(Counter(itervalues(L))):
+                for label, frequency in iteritems(Counter(itervalues(L))):
                     # for the row that corresponds to that graph
                     rows.append(ni)
                     col_idx = labels.get(label, None)
@@ -183,8 +182,11 @@ class CustomVertexHistogram(Kernel):
 
                 except MemoryError:
                     warn("memory-error: switching to sparse")
-                    self.sparse_, features = True, csr_matrix(
-                        (data, (rows, cols)), shape=(ni, label_length), copy=False
+                    self.sparse_, features = (
+                        True,
+                        csr_matrix(
+                            (data, (rows, cols)), shape=(ni, label_length), copy=False
+                        ),
                     )
 
             if ni == 0:

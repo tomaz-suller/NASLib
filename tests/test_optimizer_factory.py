@@ -18,19 +18,19 @@ class OptimizerFactoryTest(unittest.TestCase):
             create_optimizer("sgd", self.model)
 
     def test_sgd(self):
-        self._test_optimizer_helper('sgd', optim.SGD, lr=0.026, weight_decay=0, momentum=0.91)
+        self._test_optimizer_helper(
+            "sgd", optim.SGD, lr=0.026, weight_decay=0, momentum=0.91
+        )
 
     def test_adam(self):
-        self._test_optimizer_helper('Adam', optim.Adam, lr=0.026, weight_decay=0, betas=(0.5, 0.999))
+        self._test_optimizer_helper(
+            "Adam", optim.Adam, lr=0.026, weight_decay=0, betas=(0.5, 0.999)
+        )
 
     # Helper functions
     def _test_optimizer_helper(self, opt, optimizer_type, lr, weight_decay, **kwargs):
         optimizer = create_optimizer(
-            opt,
-            self.model.parameters(),
-            lr,
-            weight_decay,
-            **kwargs
+            opt, self.model.parameters(), lr, weight_decay, **kwargs
         )
 
         self.assertIsInstance(optimizer, optimizer_type)
@@ -40,5 +40,5 @@ class OptimizerFactoryTest(unittest.TestCase):
             self.assertEqual(optimizer.defaults[item], kwargs[item])
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

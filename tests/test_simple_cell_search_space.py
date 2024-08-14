@@ -13,7 +13,7 @@ logger.handlers[0].setLevel(logging.FATAL)
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 config = utils.AttrDict()
-config.dataset = 'cifar10'
+config.dataset = "cifar10"
 config.search = utils.AttrDict()
 config.search.grad_clip = None
 config.search.learning_rate = 0.01
@@ -30,7 +30,6 @@ data_val = (torch.ones([2, 3, 32, 32]).to(device), torch.ones([2]).to(device).lo
 
 
 class SimpleCellDartsIntegrationTest(unittest.TestCase):
-
     def setUp(self):
         utils.set_seed(1)
         self.optimizer = DARTSOptimizer(**config.search)
@@ -51,7 +50,6 @@ class SimpleCellDartsIntegrationTest(unittest.TestCase):
 
 
 class SimpleCellGdasIntegrationTest(unittest.TestCase):
-
     def setUp(self):
         utils.set_seed(1)
         self.optimizer = GDASOptimizer(**config.search)
@@ -72,7 +70,6 @@ class SimpleCellGdasIntegrationTest(unittest.TestCase):
 
 
 class SimpleCellDrNasIntegrationTest(unittest.TestCase):
-
     def setUp(self):
         utils.set_seed(1)
         self.optimizer = DrNASOptimizer(**config.search)
@@ -92,5 +89,5 @@ class SimpleCellDrNasIntegrationTest(unittest.TestCase):
         self.assertAlmostEqual(logits[0, 0].detach().cpu().numpy(), 0.0921, places=3)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

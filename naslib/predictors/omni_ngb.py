@@ -38,7 +38,6 @@ class OmniNGBPredictor(Predictor):
         min_train_size=0,
         max_zerocost=np.inf,
     ):
-
         self.zero_cost = zero_cost
         self.encoding_type = encoding_type
         self.config = config
@@ -162,17 +161,13 @@ class OmniNGBPredictor(Predictor):
 
         if self.encoding_type is not None:
             xdata_encoded = np.array(
-                [
-                    arch.encode(encoding_type=self.encoding_type)
-                    for arch in xdata
-                ]
+                [arch.encode(encoding_type=self.encoding_type) for arch in xdata]
             )
             full_xdata = [[*x, *xdata_encoded[i]] for i, x in enumerate(full_xdata)]
 
         return np.array(full_xdata)
 
     def fit(self, xtrain, ytrain, train_info, learn_hyper=True):
-
         # if we are below the min train size, use the zero_cost and lce info
         if len(xtrain) < self.min_train_size:
             self.trained = False

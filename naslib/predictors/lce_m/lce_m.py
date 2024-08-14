@@ -12,7 +12,6 @@ class LCEMPredictor(Predictor):
         self.metric = metric
 
     def query(self, xtest, info):
-
         learning_curves = np.array([np.array(inf["lc"]) / 100 for inf in info])
         trained_epochs = len(info[0]["lc"])
         t_idx = np.arange(1, trained_epochs + 1)
@@ -42,7 +41,6 @@ class LCEMPredictor(Predictor):
 
         predictions = []
         for i in range(len(xtest)):
-
             model.fit(t_idx, learning_curves[i])
             try:
                 p = model.predictive_distribution(final_epoch)

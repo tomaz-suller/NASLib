@@ -6,6 +6,7 @@ from naslib.search_spaces.core.graph import Graph
 
 from fvcore.common.config import CfgNode
 
+
 class RandomSearch(MetaOptimizer):
     """
     Random search in DARTS is done by randomly sampling `k` architectures
@@ -15,10 +16,7 @@ class RandomSearch(MetaOptimizer):
 
     using_step_function = False
 
-    def __init__(
-            self,
-            config: CfgNode
-    ):
+    def __init__(self, config: CfgNode):
         """
         Initialize a random search optimizer.
 
@@ -35,7 +33,9 @@ class RandomSearch(MetaOptimizer):
         self.sampled_archs = []
         self.history = torch.nn.ModuleList()
 
-    def adapt_search_space(self, search_space: Graph, scope: str = None, dataset_api: dict = None):
+    def adapt_search_space(
+        self, search_space: Graph, scope: str = None, dataset_api: dict = None
+    ):
         assert (
             search_space.QUERYABLE
         ), "Random search is currently only implemented for benchmarks."
@@ -77,7 +77,6 @@ class RandomSearch(MetaOptimizer):
         return max(self.sampled_archs, key=lambda x: x.accuracy).arch
 
     def train_statistics(self, report_incumbent: bool = True):
-
         if report_incumbent:
             best_arch = self.get_final_architecture()
         else:

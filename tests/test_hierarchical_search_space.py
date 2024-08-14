@@ -5,7 +5,13 @@ import os
 
 from naslib.search_spaces import HierarchicalSearchSpace
 from naslib.optimizers import DARTSOptimizer, GDASOptimizer, DrNASOptimizer
-from naslib.search_spaces.core.primitives import Zero1x1, Identity, MaxPool1x1, AvgPool1x1, SepConv
+from naslib.search_spaces.core.primitives import (
+    Zero1x1,
+    Identity,
+    MaxPool1x1,
+    AvgPool1x1,
+    SepConv,
+)
 from naslib.search_spaces.hierarchical.primitives import ConvBNReLU, DepthwiseConv
 from naslib import utils
 from naslib.utils import setup_logger
@@ -15,7 +21,7 @@ logger.handlers[0].setLevel(logging.FATAL)
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 config = utils.AttrDict()
-config.dataset = 'cifar10'
+config.dataset = "cifar10"
 config.search = utils.AttrDict()
 config.search.grad_clip = None
 config.search.learning_rate = 0.01
@@ -32,7 +38,6 @@ data_val = (torch.ones([2, 3, 32, 32]).to(device), torch.ones([2]).to(device).lo
 
 
 class HierarchicalDartsIntegrationTest(unittest.TestCase):
-
     def setUp(self):
         utils.set_seed(1)
         self.optimizer = DARTSOptimizer(**config.search)
@@ -53,7 +58,6 @@ class HierarchicalDartsIntegrationTest(unittest.TestCase):
 
 
 class HierarchicalGdasIntegrationTest(unittest.TestCase):
-
     def setUp(self):
         utils.set_seed(1)
         self.optimizer = GDASOptimizer(**config.search)
@@ -74,7 +78,6 @@ class HierarchicalGdasIntegrationTest(unittest.TestCase):
 
 
 class HierarchicalDrNasIntegrationTest(unittest.TestCase):
-
     def setUp(self):
         utils.set_seed(1)
         self.optimizer = DrNASOptimizer(**config.search)
@@ -95,13 +98,12 @@ class HierarchicalDrNasIntegrationTest(unittest.TestCase):
 
 
 class HierarchicalSearchSpaceTest(unittest.TestCase):
-
     def setUp(self):
         utils.set_seed(1)
         self.optimizer_graph = DARTSOptimizer(**config.search)
         self.optimizer_subgraph = DARTSOptimizer(**config.search)
         self.graph = HierarchicalSearchSpace()
-        self.subgraph = self.graph.edges[4, 5]['op']
+        self.subgraph = self.graph.edges[4, 5]["op"]
         self.optimizer_graph.adapt_search_space(self.graph, config.dataset)
         self.optimizer_subgraph.adapt_search_space(self.subgraph, config.dataset)
         self.num_ops = 0
@@ -115,14 +117,24 @@ class HierarchicalSearchSpaceTest(unittest.TestCase):
         self.assertEqual(self.subgraph.number_of_edges(), 10)
         for _, _, data in self.subgraph.edges.data():
             self.num_ops += 1
-            for _, _, data_ in data['op'][0].edges.data():
-                for operation in data_['op']:
-                    self.assertIn(type(operation), [Identity, Zero1x1, DepthwiseConv, ConvBNReLU, AvgPool1x1,
-                                                    MaxPool1x1, SepConv])
+            for _, _, data_ in data["op"][0].edges.data():
+                for operation in data_["op"]:
+                    self.assertIn(
+                        type(operation),
+                        [
+                            Identity,
+                            Zero1x1,
+                            DepthwiseConv,
+                            ConvBNReLU,
+                            AvgPool1x1,
+                            MaxPool1x1,
+                            SepConv,
+                        ],
+                    )
 
         # Check if the number of edges is the same as number of operations in the subgraph
         self.assertEqual(self.subgraph.number_of_edges(), self.num_ops)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

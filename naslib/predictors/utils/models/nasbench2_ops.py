@@ -240,13 +240,24 @@ class SearchCell(nn.Module):
 
 
 OPS = {
-    "none": lambda in_channels, out_channels, stride, affine, track_running_stats, use_bn: Zero(
-        stride, name="none"
-    ),
-    "avg_pool_3x3": lambda in_channels, out_channels, stride, affine, track_running_stats, use_bn: POOLING(
-        3, 1, 1, name="avg_pool_3x3"
-    ),
-    "nor_conv_3x3": lambda in_channels, out_channels, stride, affine, track_running_stats, use_bn: ReLUConvBN(
+    "none": lambda in_channels,
+    out_channels,
+    stride,
+    affine,
+    track_running_stats,
+    use_bn: Zero(stride, name="none"),
+    "avg_pool_3x3": lambda in_channels,
+    out_channels,
+    stride,
+    affine,
+    track_running_stats,
+    use_bn: POOLING(3, 1, 1, name="avg_pool_3x3"),
+    "nor_conv_3x3": lambda in_channels,
+    out_channels,
+    stride,
+    affine,
+    track_running_stats,
+    use_bn: ReLUConvBN(
         in_channels,
         out_channels,
         3,
@@ -258,7 +269,12 @@ OPS = {
         use_bn,
         name="nor_conv_3x3",
     ),
-    "nor_conv_1x1": lambda in_channels, out_channels, stride, affine, track_running_stats, use_bn: ReLUConvBN(
+    "nor_conv_1x1": lambda in_channels,
+    out_channels,
+    stride,
+    affine,
+    track_running_stats,
+    use_bn: ReLUConvBN(
         in_channels,
         out_channels,
         1,
@@ -270,7 +286,10 @@ OPS = {
         use_bn,
         name="nor_conv_1x1",
     ),
-    "skip_connect": lambda in_channels, out_channels, stride, affine, track_running_stats, use_bn: Identity(
-        name="skip_connect"
-    ),
+    "skip_connect": lambda in_channels,
+    out_channels,
+    stride,
+    affine,
+    track_running_stats,
+    use_bn: Identity(name="skip_connect"),
 }

@@ -18,7 +18,7 @@ edge_attributes = {
     "stride": 1,  # stride will be adaped later accordingly
     "kernel_size": 3,
     "padding": [None, None, None, 1, 2],  # if different for each op specify full list
-    "dilation": 2
+    "dilation": 2,
     # C_in and C_out will be specified later
 }
 

@@ -211,19 +211,24 @@ class NasBench301SearchSpace(Graph):
         self._set_cell_ops(reduction_cell_indices)
 
     def _set_makrograph_ops(
-            self,
-            channel_map_from: dict,
-            channel_map_to: dict,
-            reduction_cell_indices: list,
-            max_index: int,
-            affine: bool = True,
+        self,
+        channel_map_from: dict,
+        channel_map_to: dict,
+        reduction_cell_indices: list,
+        max_index: int,
+        affine: bool = True,
     ) -> None:
         # pre-processing
         # In darts there is a hardcoded multiplier of 3 for the output of the stem
         stem_multiplier = 3
-        self.edges[1, 2].set("op", ops.Stem(C_in=self.in_channels,
-                                            # TODO_ARJUN: Make Stem use C_in. Currently, it is hardcoded to 3.
-                                            C_out=self.channels[0] * stem_multiplier))
+        self.edges[1, 2].set(
+            "op",
+            ops.Stem(
+                C_in=self.in_channels,
+                # TODO_ARJUN: Make Stem use C_in. Currently, it is hardcoded to 3.
+                C_out=self.channels[0] * stem_multiplier,
+            ),
+        )
 
         # edges connecting cells
         for u, v, data in sorted(self.edges(data=True)):
@@ -295,8 +300,7 @@ class NasBench301SearchSpace(Graph):
         """
 
         self.update_nodes(
-            _truncate_input_edges, scope=self.OPTIMIZER_SCOPE,
-            single_instances=True
+            _truncate_input_edges, scope=self.OPTIMIZER_SCOPE, single_instances=True
         )
 
     def prepare_evaluation(self) -> None:
@@ -315,7 +319,9 @@ class NasBench301SearchSpace(Graph):
                     nn.AvgPool2d(
                         5, stride=3, padding=0, count_include_pad=False
                     ),  # image size = 2 x 2
-                    nn.Conv2d(self.channels[-1] * self.num_in_edges, 128, 1, bias=False),
+                    nn.Conv2d(
+                        self.channels[-1] * self.num_in_edges, 128, 1, bias=False
+                    ),
                     nn.BatchNorm2d(128),
                     nn.ReLU(inplace=False),
                     nn.Conv2d(128, 768, 2, bias=False),
@@ -342,20 +348,23 @@ class NasBench301SearchSpace(Graph):
         self.set_compact(compact)
 
     def query(
-            self,
-            metric: Metric = None,
-            dataset: str = None,
-            path: str = None,
-            epoch: int = -1,
-            full_lc: bool = False,
-            dataset_api: dict = None) -> Union[float, dict]:
+        self,
+        metric: Metric = None,
+        dataset: str = None,
+        path: str = None,
+        epoch: int = -1,
+        full_lc: bool = False,
+        dataset_api: dict = None,
+    ) -> Union[float, dict]:
         """
         Query results from nasbench 301
         """
         if dataset_api is None:
-            raise NotImplementedError('Must pass in dataset_api to query NAS-Bench-301')
+            raise NotImplementedError("Must pass in dataset_api to query NAS-Bench-301")
 
-        assert dataset == 'cifar10' or dataset is None, "NAS-Bench-301 supports only CIFAR10 dataset"
+        assert (
+            dataset == "cifar10" or dataset is None
+        ), "NAS-Bench-301 supports only CIFAR10 dataset"
 
         metric_to_nb301 = {
             Metric.TRAIN_LOSS: "train_losses",
@@ -371,13 +380,16 @@ class NasBench301SearchSpace(Graph):
             and we can query the train loss or val accuracy at a specific epoch
             (also, querying will give 'real' answers, since these arches were actually trained)
             """
-            assert metric in [
-                Metric.VAL_ACCURACY,
-                Metric.TEST_ACCURACY,
-                Metric.TRAIN_LOSS,
-                Metric.TRAIN_TIME,
-                Metric.HP,
-            ], "Only VAL_ACCURACY, TEST_ACCURACY, TRAIN_LOSS, TRAIN_TIME, and HP can be queried for the given model."
+            assert (
+                metric
+                in [
+                    Metric.VAL_ACCURACY,
+                    Metric.TEST_ACCURACY,
+                    Metric.TRAIN_LOSS,
+                    Metric.TRAIN_TIME,
+                    Metric.HP,
+                ]
+            ), "Only VAL_ACCURACY, TEST_ACCURACY, TRAIN_LOSS, TRAIN_TIME, and HP can be queried for the given model."
             query_results = dataset_api["nb301_data"][self.compact]
 
             if metric == Metric.TRAIN_TIME:
@@ -433,7 +445,9 @@ class NasBench301SearchSpace(Graph):
 
     def set_compact(self, compact: tuple) -> None:
         if self.instantiate_model == True:
-            assert self.compact is None, f"An architecture has already been assigned to this instance of {self.__class__.__name__}. Instantiate a new instance to be able to sample a new model or set a new architecture."
+            assert (
+                self.compact is None
+            ), f"An architecture has already been assigned to this instance of {self.__class__.__name__}. Instantiate a new instance to be able to sample a new model or set a new architecture."
             convert_compact_to_naslib(compact, self)
 
         self.compact = compact
@@ -442,7 +456,9 @@ class NasBench301SearchSpace(Graph):
         self.set_compact(make_compact_immutable(compact))
 
     def sample_random_labeled_architecture(self) -> None:
-        assert self.labeled_archs is not None, "Labeled archs not provided to sample from"
+        assert (
+            self.labeled_archs is not None
+        ), "Labeled archs not provided to sample from"
 
         op_indices = random.choice(self.labeled_archs)
 
@@ -451,13 +467,17 @@ class NasBench301SearchSpace(Graph):
 
         self.set_spec(op_indices)
 
-    def sample_random_architecture(self, dataset_api: dict = None, load_labeled: bool = False) -> None:
+    def sample_random_architecture(
+        self, dataset_api: dict = None, load_labeled: bool = False
+    ) -> None:
         """
         This will sample a random architecture and update the edges in the
         naslib object accordingly.
         """
         if load_labeled == True:
-            assert dataset_api is not None, "NAS-Bench-301 API must be passed as argument to sample a trained model"
+            assert (
+                dataset_api is not None
+            ), "NAS-Bench-301 API must be passed as argument to sample a trained model"
             self.load_labeled_architecture(dataset_api=dataset_api)
             return
 
@@ -506,7 +526,9 @@ class NasBench301SearchSpace(Graph):
                     elif pair % 2 != 0 and compact[cell][pair - 1][num] != choice:
                         compact[cell][pair][num] = choice
 
-            if make_compact_immutable(parent_compact) != make_compact_immutable(compact):
+            if make_compact_immutable(parent_compact) != make_compact_immutable(
+                compact
+            ):
                 break
 
             parent_compact = make_compact_mutable(parent_compact)
@@ -521,7 +543,6 @@ class NasBench301SearchSpace(Graph):
 
         for i, cell in enumerate(self.compact):
             for j, pair in enumerate(cell):
-
                 # mutate the op
                 available = [op for op in range(NUM_OPS) if op != pair[1]]
                 for op in available:
@@ -555,9 +576,9 @@ class NasBench301SearchSpace(Graph):
 
     @staticmethod
     def get_configspace(
-            path_to_configspace_obj=os.path.join(
-                get_project_root(), "search_spaces/nasbench301/configspace.json"
-            )
+        path_to_configspace_obj=os.path.join(
+            get_project_root(), "search_spaces/nasbench301/configspace.json"
+        ),
     ):
         """
         Returns the ConfigSpace object for the search space
@@ -660,7 +681,9 @@ def _truncate_input_edges(node: tuple, in_edges: list, out_edges: list) -> None:
                 if data.has("final") and data.final:
                     return  # We are looking at an out node
                 data.alpha.data[1] = -float("Inf")
-            sorted_edge_ids = sorted(in_edges, key=_largest_post_softmax_weight, reverse=True)
+            sorted_edge_ids = sorted(
+                in_edges, key=_largest_post_softmax_weight, reverse=True
+            )
             keep_edges, _ = zip(*sorted_edge_ids[:k])
             for edge_id, edge_data in in_edges:
                 if edge_id not in keep_edges:

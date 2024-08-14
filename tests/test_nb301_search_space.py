@@ -12,20 +12,22 @@ def create_dummy_api():
         def predict(config, representation):
             return 96.0
 
-    spec = (((0, 6), (1, 4), (0, 0), (1, 5), (1, 4), (3, 2), (0, 6), (3, 2)),
-            ((0, 1), (1, 4), (0, 1), (1, 4), (2, 6), (3, 4), (1, 5), (2, 1)))
+    spec = (
+        ((0, 6), (1, 4), (0, 0), (1, 5), (1, 4), (3, 2), (0, 6), (3, 2)),
+        ((0, 1), (1, 4), (0, 1), (1, 4), (2, 6), (3, 4), (1, 5), (2, 1)),
+    )
 
     data = {}
     data[spec] = {
-        'runtime': [float(t * 100) for t in range(1, 99)],
-        'train_losses': [float(l / 10) for l in range(98, 0, -1)],
-        'val_accuracies': [float(i) for i in range(1, 99)]
+        "runtime": [float(t * 100) for t in range(1, 99)],
+        "train_losses": [float(l / 10) for l in range(98, 0, -1)],
+        "val_accuracies": [float(i) for i in range(1, 99)],
     }
 
     api = {
-        'nb301_arches': [spec],
-        'nb301_model': DummyNB301SurrogateModel(),
-        'nb301_data': data,
+        "nb301_arches": [spec],
+        "nb301_model": DummyNB301SurrogateModel(),
+        "nb301_data": data,
     }
 
     return api
@@ -33,18 +35,21 @@ def create_dummy_api():
 
 def create_model():
     graph = NasBench301SearchSpace()
-    spec = (((0, 1), (1, 4), (0, 6), (2, 0), (2, 6), (1, 4), (0, 5), (2, 2)),
-            ((0, 5), (1, 6), (0, 1), (1, 5), (2, 5), (1, 2), (3, 3), (0, 3)))
+    spec = (
+        ((0, 1), (1, 4), (0, 6), (2, 0), (2, 6), (1, 4), (0, 5), (2, 2)),
+        ((0, 5), (1, 6), (0, 1), (1, 5), (2, 5), (1, 2), (3, 3), (0, 3)),
+    )
     graph.set_spec(spec)
     return graph
 
 
 class NasBench301SearchSpaceTest(unittest.TestCase):
-
     def test_set_and_get_spec(self):
         graph = NasBench301SearchSpace()
-        spec = (((0, 1), (1, 4), (0, 6), (2, 0), (2, 6), (1, 4), (0, 5), (2, 2)),
-                ((0, 5), (1, 6), (0, 1), (1, 5), (2, 5), (1, 2), (3, 3), (0, 3)))
+        spec = (
+            ((0, 1), (1, 4), (0, 6), (2, 0), (2, 6), (1, 4), (0, 5), (2, 2)),
+            ((0, 5), (1, 6), (0, 1), (1, 5), (2, 5), (1, 2), (3, 3), (0, 3)),
+        )
         graph.set_spec(spec)
         retrieved_spec = graph.get_hash()
 
@@ -52,15 +57,19 @@ class NasBench301SearchSpaceTest(unittest.TestCase):
 
     def test_set_spec_twice_with_instantiation(self):
         graph = NasBench301SearchSpace()
-        spec = (((0, 1), (1, 4), (0, 6), (2, 0), (2, 6), (1, 4), (0, 5), (2, 2)),
-                ((0, 5), (1, 6), (0, 1), (1, 5), (2, 5), (1, 2), (3, 3), (0, 3)))
+        spec = (
+            ((0, 1), (1, 4), (0, 6), (2, 0), (2, 6), (1, 4), (0, 5), (2, 2)),
+            ((0, 5), (1, 6), (0, 1), (1, 5), (2, 5), (1, 2), (3, 3), (0, 3)),
+        )
         graph.set_spec(spec)
         retrieved_spec = graph.get_hash()
 
         self.assertEqual(spec, retrieved_spec)
 
-        new_spec = (((0, 4), (1, 4), (0, 6), (2, 0), (2, 6), (1, 4), (0, 5), (2, 2)),
-                    ((0, 4), (1, 4), (0, 1), (1, 5), (2, 5), (1, 2), (3, 3), (0, 3)))
+        new_spec = (
+            ((0, 4), (1, 4), (0, 6), (2, 0), (2, 6), (1, 4), (0, 5), (2, 2)),
+            ((0, 4), (1, 4), (0, 1), (1, 5), (2, 5), (1, 2), (3, 3), (0, 3)),
+        )
 
         try:
             graph.set_spec(new_spec)
@@ -73,15 +82,19 @@ class NasBench301SearchSpaceTest(unittest.TestCase):
     def test_set_spec_twice_without_instantiation(self):
         graph = NasBench301SearchSpace()
         graph.instantiate_model = False
-        spec = (((0, 1), (1, 4), (0, 6), (2, 0), (2, 6), (1, 4), (0, 5), (2, 2)),
-                ((0, 5), (1, 6), (0, 1), (1, 5), (2, 5), (1, 2), (3, 3), (0, 3)))
+        spec = (
+            ((0, 1), (1, 4), (0, 6), (2, 0), (2, 6), (1, 4), (0, 5), (2, 2)),
+            ((0, 5), (1, 6), (0, 1), (1, 5), (2, 5), (1, 2), (3, 3), (0, 3)),
+        )
         graph.set_spec(spec)
         retrieved_spec = graph.get_hash()
 
         self.assertEqual(spec, retrieved_spec)
 
-        new_spec = (((0, 4), (1, 4), (0, 6), (2, 0), (2, 6), (1, 4), (0, 5), (2, 2)),
-                    ((0, 4), (1, 4), (0, 1), (1, 5), (2, 5), (1, 2), (3, 3), (0, 3)))
+        new_spec = (
+            ((0, 4), (1, 4), (0, 6), (2, 0), (2, 6), (1, 4), (0, 5), (2, 2)),
+            ((0, 4), (1, 4), (0, 1), (1, 5), (2, 5), (1, 2), (3, 3), (0, 3)),
+        )
         graph.set_spec(new_spec)
         retrieved_spec = graph.get_hash()
 
@@ -92,17 +105,23 @@ class NasBench301SearchSpaceTest(unittest.TestCase):
         np.random.seed(9001)
         graph.sample_random_architecture()
         spec = graph.get_hash()
-        spec_truth = (((0, 1), (1, 4), (0, 6), (2, 0), (2, 6), (1, 4), (0, 5), (2, 2)),
-                      ((0, 5), (1, 6), (0, 1), (1, 5), (2, 5), (1, 2), (3, 3), (0, 3)))
+        spec_truth = (
+            ((0, 1), (1, 4), (0, 6), (2, 0), (2, 6), (1, 4), (0, 5), (2, 2)),
+            ((0, 5), (1, 6), (0, 1), (1, 5), (2, 5), (1, 2), (3, 3), (0, 3)),
+        )
 
         self.assertEqual(spec, spec_truth)
 
     def test_sample_random_architecture_from_labeled(self):
         graph = NasBench301SearchSpace()
-        graph.sample_random_architecture(dataset_api=create_dummy_api(), load_labeled=True)
+        graph.sample_random_architecture(
+            dataset_api=create_dummy_api(), load_labeled=True
+        )
         spec = graph.get_hash()
-        spec_truth = (((0, 6), (1, 4), (0, 0), (1, 5), (1, 4), (3, 2), (0, 6), (3, 2)),
-                      ((0, 1), (1, 4), (0, 1), (1, 4), (2, 6), (3, 4), (1, 5), (2, 1)))
+        spec_truth = (
+            ((0, 6), (1, 4), (0, 0), (1, 5), (1, 4), (3, 2), (0, 6), (3, 2)),
+            ((0, 1), (1, 4), (0, 1), (1, 4), (2, 6), (3, 4), (1, 5), (2, 1)),
+        )
 
         self.assertEqual(spec, spec_truth)
 
@@ -134,12 +153,14 @@ class NasBench301SearchSpaceTest(unittest.TestCase):
         graph.prepare_discretization()
 
         for n in range(4, 12):
-            for e in graph.nodes[n]['subgraph'].edges(data=True):
-                assert isinstance(e[2]['op'], AbstractPrimitive)
+            for e in graph.nodes[n]["subgraph"].edges(data=True):
+                assert isinstance(e[2]["op"], AbstractPrimitive)
 
     def test_query_no_api(self):
         graph = NasBench301SearchSpace()
-        graph.sample_random_architecture(dataset_api=create_dummy_api(), load_labeled=True)
+        graph.sample_random_architecture(
+            dataset_api=create_dummy_api(), load_labeled=True
+        )
 
         try:
             results = graph.query()
@@ -148,7 +169,9 @@ class NasBench301SearchSpaceTest(unittest.TestCase):
 
     def test_query_no_dataset(self):
         graph = NasBench301SearchSpace()
-        graph.sample_random_architecture(dataset_api=create_dummy_api(), load_labeled=True)
+        graph.sample_random_architecture(
+            dataset_api=create_dummy_api(), load_labeled=True
+        )
 
         try:
             results = graph.query(dataset_api=create_dummy_api())
@@ -157,26 +180,32 @@ class NasBench301SearchSpaceTest(unittest.TestCase):
 
     def test_query(self):
         graph = NasBench301SearchSpace()
-        graph.sample_random_architecture(dataset_api=create_dummy_api(), load_labeled=True)
+        graph.sample_random_architecture(
+            dataset_api=create_dummy_api(), load_labeled=True
+        )
 
         dummy_api = create_dummy_api()
-        dummy_spec = list(dummy_api['nb301_data'].keys())[0]
-        dummy_data = dummy_api['nb301_data'][dummy_spec]
+        dummy_spec = list(dummy_api["nb301_data"].keys())[0]
+        dummy_data = dummy_api["nb301_data"][dummy_spec]
 
         val_acc = graph.query(metric=Metric.VAL_ACCURACY, dataset_api=dummy_api)
-        self.assertEqual(val_acc, dummy_data['val_accuracies'][-1])
+        self.assertEqual(val_acc, dummy_data["val_accuracies"][-1])
 
         loss = graph.query(metric=Metric.TRAIN_LOSS, dataset_api=dummy_api)
-        self.assertEqual(loss, dummy_data['train_losses'][-1])
+        self.assertEqual(loss, dummy_data["train_losses"][-1])
 
         time = graph.query(metric=Metric.TRAIN_TIME, dataset_api=dummy_api)
-        self.assertEqual(tuple(time), tuple(dummy_data['runtime']))
+        self.assertEqual(tuple(time), tuple(dummy_data["runtime"]))
 
-        val_accs = graph.query(metric=Metric.VAL_ACCURACY, dataset_api=dummy_api, full_lc=True)
-        self.assertEqual(tuple(val_accs), tuple(dummy_data['val_accuracies']))
+        val_accs = graph.query(
+            metric=Metric.VAL_ACCURACY, dataset_api=dummy_api, full_lc=True
+        )
+        self.assertEqual(tuple(val_accs), tuple(dummy_data["val_accuracies"]))
 
-        loss = graph.query(metric=Metric.TRAIN_LOSS, dataset_api=dummy_api, full_lc=True)
-        self.assertEqual(tuple(loss), tuple(dummy_data['train_losses']))
+        loss = graph.query(
+            metric=Metric.TRAIN_LOSS, dataset_api=dummy_api, full_lc=True
+        )
+        self.assertEqual(tuple(loss), tuple(dummy_data["train_losses"]))
 
     def test_get_arch_iterator(self):
         graph = NasBench301SearchSpace()
@@ -184,7 +213,7 @@ class NasBench301SearchSpaceTest(unittest.TestCase):
         it = graph.get_arch_iterator(api)
 
         self.assertEqual(len(list(it)), 1)
-        np.testing.assert_array_equal(list(it)[0], api['nb301_arches'][0])
+        np.testing.assert_array_equal(list(it)[0], api["nb301_arches"][0])
 
     def test_mutate(self):
         graph_parent = create_model()
@@ -207,5 +236,5 @@ class NasBench301SearchSpaceTest(unittest.TestCase):
     #     assert len(neighbours) == 120
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

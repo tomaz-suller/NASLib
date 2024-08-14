@@ -6,13 +6,181 @@ from naslib.search_spaces import NasBench101SearchSpace
 from naslib.search_spaces.nasbench101 import conversions
 import naslib.utils.nb101_api as api
 
-SPEC = (0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0,
-        0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 4, 2, 3, 3, 3, 1)
-SAMPLED_SPEC = (0, 0, 1, 0, 1, 1, 0, 0, 0, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0,
-                0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 2, 4, 2, 3, 3, 1)
-HASHSPEC = 'ff940d27cbe9ed0a639a68a9c3f87283'  # Random HASH from NB101
-FIXED_ARCH = (0, 1, 1, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0,
-              0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 2, 4, 3, 3, 4, 1)
+SPEC = (
+    0,
+    0,
+    0,
+    0,
+    1,
+    0,
+    0,
+    0,
+    0,
+    0,
+    1,
+    1,
+    0,
+    1,
+    0,
+    0,
+    0,
+    1,
+    0,
+    1,
+    0,
+    0,
+    0,
+    0,
+    0,
+    1,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    1,
+    1,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    1,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    4,
+    2,
+    3,
+    3,
+    3,
+    1,
+)
+SAMPLED_SPEC = (
+    0,
+    0,
+    1,
+    0,
+    1,
+    1,
+    0,
+    0,
+    0,
+    1,
+    1,
+    1,
+    0,
+    1,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    1,
+    0,
+    0,
+    0,
+    0,
+    0,
+    1,
+    1,
+    0,
+    0,
+    0,
+    0,
+    0,
+    1,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    1,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    2,
+    4,
+    2,
+    3,
+    3,
+    1,
+)
+HASHSPEC = "ff940d27cbe9ed0a639a68a9c3f87283"  # Random HASH from NB101
+FIXED_ARCH = (
+    0,
+    1,
+    1,
+    0,
+    1,
+    1,
+    0,
+    0,
+    0,
+    0,
+    0,
+    1,
+    0,
+    0,
+    0,
+    0,
+    0,
+    1,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    1,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    1,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    1,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    2,
+    4,
+    3,
+    3,
+    4,
+    1,
+)
 
 
 def create_dummy_api():
@@ -31,7 +199,6 @@ def create_model(spec, n_classes=10):
 
 
 class NasBench101SearchSpaceTest(unittest.TestCase):
-
     def test_set_and_get_spec(self):
         graph = NasBench101SearchSpace()
         graph.set_spec(SPEC)
@@ -51,15 +218,66 @@ class NasBench101SearchSpaceTest(unittest.TestCase):
         graph = create_model(n_classes=10, spec=SPEC)
 
         out = graph(torch.randn(3, 3, 32, 32))
-        self.assertTrue(torch.allclose(out[0].detach(), torch.tensor([0.0737, 0.0128, 0.0086, 0.0214, 0.0912, -0.0532,
-                                                                      0.0479, 0.1870,
-                                                                      -0.0248, 0.1075]), rtol=1e-2))
-        self.assertTrue(torch.allclose(out[1].detach(), torch.tensor([0.0667, 0.0115, 0.0107, 0.0106, 0.0570, -0.0186,
-                                                                      0.0353, 0.1650,
-                                                                      -0.0165, 0.0848]), rtol=1e-2))
-        self.assertTrue(torch.allclose(out[2].detach(), torch.tensor([0.0536, 0.0136, -0.0104, 0.0174, 0.0753, -0.0871,
-                                                                      0.0472, 0.1974,
-                                                                      -0.0231, 0.1336]), rtol=1e-2))
+        self.assertTrue(
+            torch.allclose(
+                out[0].detach(),
+                torch.tensor(
+                    [
+                        0.0737,
+                        0.0128,
+                        0.0086,
+                        0.0214,
+                        0.0912,
+                        -0.0532,
+                        0.0479,
+                        0.1870,
+                        -0.0248,
+                        0.1075,
+                    ]
+                ),
+                rtol=1e-2,
+            )
+        )
+        self.assertTrue(
+            torch.allclose(
+                out[1].detach(),
+                torch.tensor(
+                    [
+                        0.0667,
+                        0.0115,
+                        0.0107,
+                        0.0106,
+                        0.0570,
+                        -0.0186,
+                        0.0353,
+                        0.1650,
+                        -0.0165,
+                        0.0848,
+                    ]
+                ),
+                rtol=1e-2,
+            )
+        )
+        self.assertTrue(
+            torch.allclose(
+                out[2].detach(),
+                torch.tensor(
+                    [
+                        0.0536,
+                        0.0136,
+                        -0.0104,
+                        0.0174,
+                        0.0753,
+                        -0.0871,
+                        0.0472,
+                        0.1974,
+                        -0.0231,
+                        0.1336,
+                    ]
+                ),
+                rtol=1e-2,
+            )
+        )
         self.assertEqual(out.shape, (3, 10))
 
     # TODO: Complete. These tests require a dummy NAS-Bench-101 API.
@@ -82,9 +300,9 @@ class NasBench101SearchSpaceTest(unittest.TestCase):
         archs = set(it)
 
         self.assertEqual(len(archs), 30)
-        self.assertIn('ff97db031fa41552d437b079b2befd80', archs)
-        self.assertIn('ff968f800464555f97c776c71481826d', archs)
-        self.assertIn('ff940d27cbe9ed0a639a68a9c3f87283', archs)
+        self.assertIn("ff97db031fa41552d437b079b2befd80", archs)
+        self.assertIn("ff968f800464555f97c776c71481826d", archs)
+        self.assertIn("ff940d27cbe9ed0a639a68a9c3f87283", archs)
 
     def test_mutate(self):
         graph_parent = create_model(spec=SPEC)
@@ -128,5 +346,5 @@ class NasBench101SearchSpaceTest(unittest.TestCase):
         self.assertTrue(torch.allclose(out2, out3))
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

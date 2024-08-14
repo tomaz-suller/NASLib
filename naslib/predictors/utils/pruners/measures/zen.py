@@ -1,4 +1,4 @@
-#Copyright (C) 2010-2021 Alibaba Group Holding Limited.
+# Copyright (C) 2010-2021 Alibaba Group Holding Limited.
 # =============================================================================
 
 import torch
@@ -13,7 +13,7 @@ def network_weight_gaussian_init(net: nn.Module):
         for m in net.modules():
             if isinstance(m, nn.Conv2d):
                 nn.init.normal_(m.weight)
-                if hasattr(m, 'bias') and m.bias is not None:
+                if hasattr(m, "bias") and m.bias is not None:
                     nn.init.zeros_(m.bias)
             elif isinstance(m, (nn.BatchNorm2d, nn.GroupNorm)):
                 if m.weight is None:
@@ -22,16 +22,25 @@ def network_weight_gaussian_init(net: nn.Module):
                 nn.init.zeros_(m.bias)
             elif isinstance(m, nn.Linear):
                 nn.init.normal_(m.weight)
-                if hasattr(m, 'bias') and m.bias is not None:
+                if hasattr(m, "bias") and m.bias is not None:
                     nn.init.zeros_(m.bias)
             else:
                 continue
 
     return net
 
+
 @measure("zen", bn=True)
-def compute_zen_score(net, inputs, targets, loss_fn=None, split_data=1,
-                      repeat=1, mixup_gamma=1e-2, fp16=False):
+def compute_zen_score(
+    net,
+    inputs,
+    targets,
+    loss_fn=None,
+    split_data=1,
+    repeat=1,
+    mixup_gamma=1e-2,
+    fp16=False,
+):
     nas_score_list = []
 
     device = inputs.device

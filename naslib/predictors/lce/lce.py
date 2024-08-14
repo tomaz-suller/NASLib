@@ -17,7 +17,6 @@ class LCEPredictor(Predictor):
         self.metric = metric
 
     def query(self, xtest, info):
-
         ensemble = ParametricEnsemble(
             [construct_parametric_model(model_config, name) for name in model_name_list]
         )

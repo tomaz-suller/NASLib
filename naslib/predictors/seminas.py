@@ -439,13 +439,11 @@ class NAO(nn.Module):
 
 
 def controller_train(train_queue, model, optimizer):
-
     objs = AverageMeter()
     mse = AverageMeter()
     nll = AverageMeter()
     model.train()
     for step, sample in enumerate(train_queue):
-
         encoder_input = move_to_cuda(sample["encoder_input"])
         encoder_target = move_to_cuda(sample["encoder_target"])
         decoder_input = move_to_cuda(sample["decoder_input"])
@@ -486,7 +484,6 @@ def controller_infer(queue, model, step, direction="+"):
 
 
 def train_controller(model, train_input, train_target, epochs):
-
     logging.info("Train data: {}".format(len(train_input)))
     controller_train_dataset = ControllerDataset(train_input, train_target, True)
     controller_train_queue = torch.utils.data.DataLoader(
@@ -568,17 +565,19 @@ class SemiNASPredictor(Predictor):
         epochs=50,
         pretrain_epochs=50,
     ):
-
-        if self.hparams_from_file and self.hparams_from_file not in ['False', 'None'] \
-        and os.path.exists(self.hparams_from_file):
-            # note: this could be split to separate hyperparams for nao and seminas, 
+        if (
+            self.hparams_from_file
+            and self.hparams_from_file not in ["False", "None"]
+            and os.path.exists(self.hparams_from_file)
+        ):
+            # note: this could be split to separate hyperparams for nao and seminas,
             # but currently there is no need to do that
-            self.hyperparams = json.load(open(self.hparams_from_file, 'rb'))['seminas']
-            print('loaded hyperparams from', self.hparams_from_file)
-            print('hparams', self.hyperparams)
+            self.hyperparams = json.load(open(self.hparams_from_file, "rb"))["seminas"]
+            print("loaded hyperparams from", self.hparams_from_file)
+            print("hparams", self.hyperparams)
         elif self.hyperparams is None:
             self.hyperparams = self.default_hyperparams.copy()
-            
+
         batch_size = self.hyperparams["batch_size"]
         gcn_hidden = self.hyperparams["gcn_hidden"]
         lr = self.hyperparams["lr"]
@@ -607,7 +606,7 @@ class SemiNASPredictor(Predictor):
             encoder_length = 324
             decoder_length = 324
             vocab_size = 12
-            
+
         elif self.ss_type == "transbench101":
             self.max_n = 8
             encoder_length = 35
@@ -619,7 +618,7 @@ class SemiNASPredictor(Predictor):
             encoder_length = 44
             decoder_length = 44
             vocab_size = 9
-            
+
         # get mean and std, normlize accuracies
         self.mean = np.mean(ytrain)
         self.std = np.std(ytrain)
@@ -667,9 +666,7 @@ class SemiNASPredictor(Predictor):
                 synthetic_encoder_input, synthetic_encoder_target = synthetic_data
 
                 if up_sample_ratio is None:
-                    up_sample_ratio = np.ceil(m / len(train_encoder_input)).astype(
-                        int
-                    )
+                    up_sample_ratio = np.ceil(m / len(train_encoder_input)).astype(int)
                 else:
                     up_sample_ratio = up_sample_ratio
 
@@ -690,7 +687,6 @@ class SemiNASPredictor(Predictor):
         return train_error
 
     def query(self, xtest, info=None, eval_batch_size=100):
-
         test_seq_pool = []
         for i, arch in enumerate(xtest):
             encoded = arch.encode(encoding_type=self.encoding_type)
@@ -721,7 +717,6 @@ class SemiNASPredictor(Predictor):
         return np.squeeze(pred * self.std + self.mean)
 
     def set_random_hyperparams(self):
-
         if self.hyperparams is None:
             params = self.default_hyperparams.copy()
 

@@ -6,7 +6,6 @@ from naslib.search_spaces.core.query_metrics import Metric
 
 class EarlyStopping(Predictor):
     def __init__(self, metric):
-
         self.metric = metric
 
     def query(self, xtest, info):

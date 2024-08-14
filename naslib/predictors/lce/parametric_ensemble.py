@@ -54,7 +54,6 @@ class ParametricEnsemble:
             self.sigma_sq = sigma_sq
 
     def perturb_params(self, params, weights, sigma_sq, var):
-
         # free variables: sigma squared, weights, model parameters
         deg_freedom = (
             1

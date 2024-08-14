@@ -6,7 +6,6 @@ from SoftSelect import ChannelWiseInter
 
 
 if __name__ == "__main__":
-
     tensors = torch.rand((16, 128, 7, 7))
 
     for oc in range(200, 210):

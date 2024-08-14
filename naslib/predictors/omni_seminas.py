@@ -52,6 +52,7 @@ lr = 0.001
 optimizer = "adam"
 grad_bound = 5.0
 
+
 # helper to move object to cuda when available
 def move_to_cuda(tensor):
     if torch.cuda.is_available():
@@ -237,6 +238,7 @@ class Encoder(nn.Module):
 
 SOS_ID = 0
 EOS_ID = 0
+
 
 # attention module
 class Attention(nn.Module):
@@ -444,13 +446,11 @@ class NAO(nn.Module):
 
 
 def controller_train(train_queue, model, optimizer):
-
     objs = AverageMeter()
     mse = AverageMeter()
     nll = AverageMeter()
     model.train()
     for step, sample in enumerate(train_queue):
-
         encoder_input = move_to_cuda(sample["encoder_input"])
         encoder_target = move_to_cuda(sample["encoder_target"])
         decoder_input = move_to_cuda(sample["decoder_input"])
@@ -491,7 +491,6 @@ def controller_infer(queue, model, step, direction="+"):
 
 
 def train_controller(model, train_input, train_target, epochs):
-
     controller_train_dataset = ControllerDataset(train_input, train_target, True)
     controller_train_queue = torch.utils.data.DataLoader(
         controller_train_dataset,
@@ -581,7 +580,6 @@ class OmniSemiNASPredictor(Predictor):
         return full_xdata
 
     def generate_synthetic_labels(self, model, synthetic_input):
-
         # use the model to label the synthetic data
         synthetic_dataset = ControllerDataset(synthetic_input, None, False)
         synthetic_queue = torch.utils.data.DataLoader(
@@ -622,7 +620,6 @@ class OmniSemiNASPredictor(Predictor):
         epochs=50,
         pretrain_epochs=50,
     ):
-
         self.train_size = len(xtrain)
         self.add_lce = self.check_fidelity(train_info)
         print("using lce:", self.add_lce)
@@ -722,9 +719,7 @@ class OmniSemiNASPredictor(Predictor):
                     self.model, synthetic_full_features
                 )
                 if up_sample_ratio is None:
-                    up_sample_ratio = np.ceil(m / len(xtrain_full_features)).astype(
-                        int
-                    )
+                    up_sample_ratio = np.ceil(m / len(xtrain_full_features)).astype(int)
                 else:
                     up_sample_ratio = up_sample_ratio
 
@@ -739,7 +734,6 @@ class OmniSemiNASPredictor(Predictor):
                 print("Finish training EPD")
 
     def query(self, xtest, info=None, batch_size=100):
-
         if self.run_pre_compute:
             # if we ran pre_compute(), the xtest zc scores are in self.xtest_zc_info
             test_data = self.prepare_features(
@@ -770,7 +764,6 @@ class OmniSemiNASPredictor(Predictor):
         return np.squeeze(pred * self.std + self.mean)
 
     def set_random_hyperparams(self):
-
         if self.hyperparams is None:
             params = self.default_hyperparams.copy()
 

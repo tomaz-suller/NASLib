@@ -27,7 +27,6 @@ class PredictorEvaluator(object):
     """
 
     def __init__(self, predictor, config=None):
-
         self.predictor = predictor
         self.config = config
         self.experiment_type = config.experiment_type
@@ -66,9 +65,13 @@ class PredictorEvaluator(object):
         if self.search_space.get_type() == "nasbench101":
             self.full_lc = False
             self.hyperparameters = False
-        elif self.search_space.get_type() in ["nasbench201", "nasbench301",
-                                              "nlp", "transbench101", 
-                                              "asr"]:
+        elif self.search_space.get_type() in [
+            "nasbench201",
+            "nasbench301",
+            "nlp",
+            "transbench101",
+            "asr",
+        ]:
             self.full_lc = True
             self.hyperparameters = True
         else:
@@ -287,7 +290,6 @@ class PredictorEvaluator(object):
             and len(xtrain) >= 10
             and self.predictor.get_hpo_wrapper()
         ):
-
             # run cross-validation (for model-based predictors)
             hyperparams, cv_score = self.run_hpo(
                 xtrain,
@@ -303,7 +305,7 @@ class PredictorEvaluator(object):
 
         fit_time_end = time.time()
         if isinstance(self.predictor, ZeroCost):
-            [g.parse() for g in xtest] # parse the graphs because they will be used
+            [g.parse() for g in xtest]  # parse the graphs because they will be used
             test_pred = self.predictor.query_batch(xtest, self.dataloader)
         else:
             test_pred = self.predictor.query(xtest, test_info)
@@ -324,10 +326,10 @@ class PredictorEvaluator(object):
             for key in hyperparams:
                 results_dict["hp_" + key] = hyperparams[key]
         results_dict["cv_score"] = cv_score
-        
+
         # note: specific code for zero-cost experiments:
         method_type = None
-        if hasattr(self.predictor, 'method_type'):
+        if hasattr(self.predictor, "method_type"):
             method_type = self.predictor.method_type
         print(
             "dataset: {}, predictor: {}, spearman {}".format(
@@ -337,7 +339,7 @@ class PredictorEvaluator(object):
         print("full ytest", results_dict["full_ytest"])
         print("full testpred", results_dict["full_testpred"])
         # end specific code for zero-cost experiments.
-        
+
         # print entire results dict:
         print_string = ""
         for key in results_dict:
@@ -351,7 +353,6 @@ class PredictorEvaluator(object):
         """
 
     def evaluate(self):
-
         self.predictor.pre_process()
 
         logger.info("Load the test set")

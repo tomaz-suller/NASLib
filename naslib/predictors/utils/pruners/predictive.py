@@ -120,7 +120,6 @@ def find_measures(
     measure_names=None,  # an array of measure names to compute, if left blank, all measures are computed by default
     measures_arr=None,
 ):
-
     # Given a neural net
     # and some information about the input data (dataloader)
     # and loss function (loss_fn)
@@ -132,22 +131,20 @@ def find_measures(
             sum += torch.sum(arr[i])
         return sum.item()
 
-    if measure_names[0] in ['flops', 'params']:
+    if measure_names[0] in ["flops", "params"]:
         data_iterator = iter(dataloader)
         x, target = next(data_iterator)
         x_shape = list(x.shape)
-        x_shape[0] = 1 # to prevent overflow
+        x_shape[0] = 1  # to prevent overflow
 
         model_stats = get_model_stats(
-            net_orig,
-            input_tensor_shape=x_shape,
-            clone_model=True
+            net_orig, input_tensor_shape=x_shape, clone_model=True
         )
 
-        if measure_names[0] == 'flops':
-            measure_score = float(model_stats.Flops)/1e6 # megaflops
+        if measure_names[0] == "flops":
+            measure_score = float(model_stats.Flops) / 1e6  # megaflops
         else:
-            measure_score = float(model_stats.parameters)/1e6 # megaparams
+            measure_score = float(model_stats.parameters) / 1e6  # megaparams
         return measure_score
 
     if measures_arr is None:
@@ -161,9 +158,8 @@ def find_measures(
         )
 
     for k, v in measures_arr.items():
-        if k == "jacov" or k == 'epe_nas' or k=='nwot' or k=='zen':
+        if k == "jacov" or k == "epe_nas" or k == "nwot" or k == "zen":
             measure_score = v
         else:
             measure_score = sum_arr(v)
     return measure_score
-

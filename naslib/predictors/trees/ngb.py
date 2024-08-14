@@ -66,7 +66,7 @@ class NGBoost(BaseTree):
             min_samples_split=min_samples_split,
             random_state=None,
             splitter="best",
-            **parse_params(self.hyperparams, identifier="base:")
+            **parse_params(self.hyperparams, identifier="base:"),
         )
         model = NGBRegressor(
             Dist=Normal,
@@ -74,7 +74,7 @@ class NGBoost(BaseTree):
             Score=LogScore,
             minibatch_frac=minibatch_frac,
             verbose=True,
-            **parse_params(self.hyperparams, identifier="param:")
+            **parse_params(self.hyperparams, identifier="param:"),
         )
 
         return model.fit(X_train, y_train)

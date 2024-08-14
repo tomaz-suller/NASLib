@@ -28,7 +28,6 @@ class SVR_Estimator(Predictor):
         n_hypers=1000,
         require_hyper=True,
     ):
-
         self.n_hypers = n_hypers
         self.all_curve = all_curve
         self.model_name = model_name
@@ -38,7 +37,6 @@ class SVR_Estimator(Predictor):
         self.require_hyperparameters = require_hyper
 
     def fit(self, xtrain, ytrain, info, learn_hyper=True):
-
         # prepare training data
         xtrain_data = self.prepare_data(info)
         y_train = np.array(ytrain)

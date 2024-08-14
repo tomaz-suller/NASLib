@@ -40,7 +40,6 @@ def fisher_forward_linear(self, x):
 
 @measure("fisher", bn=True, mode="channel")
 def compute_fisher_per_weight(net, inputs, targets, loss_fn, mode, split_data=1):
-
     device = inputs.device
 
     if mode == "param":
@@ -75,9 +74,7 @@ def compute_fisher_per_weight(net, inputs, targets, loss_fn, mode, split_data=1)
                         layer.fisher = del_k
                     else:
                         layer.fisher += del_k
-                    del (
-                        layer.act
-                    )  # without deleting this, a nasty memory leak occurs! related: https://discuss.pytorch.org/t/memory-leak-when-using-forward-hook-and-backward-hook-simultaneously/27555
+                    del layer.act  # without deleting this, a nasty memory leak occurs! related: https://discuss.pytorch.org/t/memory-leak-when-using-forward-hook-and-backward-hook-simultaneously/27555
 
                 return hook
 

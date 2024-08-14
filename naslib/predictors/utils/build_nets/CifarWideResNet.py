@@ -29,7 +29,6 @@ class WideBasicblock(nn.Module):
             self.downsample = None
 
     def forward(self, x):
-
         basicblock = self.bn_a(x)
         basicblock = F.relu(basicblock)
         basicblock = self.conv_a(basicblock)
@@ -93,7 +92,6 @@ class CifarWideResNet(nn.Module):
         return self.message
 
     def _make_layer(self, block, planes, blocks, stride):
-
         layers = []
         layers.append(block(self.inplanes, planes, stride, self.dropout))
         self.inplanes = planes

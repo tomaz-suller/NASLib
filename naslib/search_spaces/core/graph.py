@@ -371,10 +371,17 @@ class Graph(torch.nn.Module, nx.DiGraph):
                     x = list(node["input"].values())[0]
                 else:
                     comb_op = node["comb_op"]
-                    input_tensors = [node["input"][k] for k in sorted(node["input"].keys())]
+                    input_tensors = [
+                        node["input"][k] for k in sorted(node["input"].keys())
+                    ]
 
                     if isinstance(comb_op, AbstractCombOp):
-                        in_edges = [self.get_edge_data(u, v) for u, v in sorted(self.in_edges(node_idx), key=lambda x: x[0])]
+                        in_edges = [
+                            self.get_edge_data(u, v)
+                            for u, v in sorted(
+                                self.in_edges(node_idx), key=lambda x: x[0]
+                            )
+                        ]
                         x = comb_op(input_tensors, in_edges)
                     else:
                         x = comb_op(input_tensors)

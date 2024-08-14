@@ -49,7 +49,7 @@ def _compute_pd_inverse(K, jitter=1e-5):
     max_fail = 3
     while fail_count < max_fail and not is_successful:
         try:
-            jitter_diag = jitter * torch.eye(n, device=K.device) * 10 ** fail_count
+            jitter_diag = jitter * torch.eye(n, device=K.device) * 10**fail_count
             K_ = K + jitter_diag
             Kc = torch.cholesky(K_)
             is_successful = True
@@ -179,7 +179,6 @@ class GraphGP:
         Xnew,
         full_cov=False,
     ):
-
         if self.K_i is None:
             raise ValueError("The GraphGP model has not been fit!")
 
@@ -270,7 +269,7 @@ class GraphGP:
         mu_s = unnormalize_y(mu_s, self.y_mean, self.y_std)
         std_s = torch.sqrt(cov_s)
         std_s = unnormalize_y(std_s, None, self.y_std, True)
-        cov_s = std_s ** 2
+        cov_s = std_s**2
         if not full_cov:
             cov_s = torch.diag(cov_s)
         # replace the invalid architectures with zeros
@@ -283,7 +282,6 @@ class GraphGP:
         return mu_s, cov_s
 
     def fit(self):
-
         xtrain_grakel = self.xtrain_converted
         # Valid values of h are non-negative integers. Here we test each of them once, and pick the one that leads to
         # the highest marginal likelihood of the GP model.

@@ -97,7 +97,6 @@ class TinyNetworkENAS(nn.Module):
         )
 
     def forward(self, inputs):
-
         feature = self.stem(inputs)
         for i, cell in enumerate(self.cells):
             if isinstance(cell, SearchCell):

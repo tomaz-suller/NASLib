@@ -62,7 +62,6 @@ class ResNetBasicblock(nn.Module):
         self.num_conv = 2
 
     def forward(self, inputs):
-
         basicblock = self.conv_a(inputs)
         basicblock = self.conv_b(basicblock)
 
@@ -97,7 +96,6 @@ class ResNetBottleneck(nn.Module):
         self.num_conv = 3
 
     def forward(self, inputs):
-
         bottleneck = self.conv_1x1(inputs)
         bottleneck = self.conv_3x3(bottleneck)
         bottleneck = self.conv_1x4(bottleneck)
@@ -135,7 +133,7 @@ class CifarResNet(nn.Module):
         for stage in range(3):
             for iL in range(layer_blocks):
                 iC = self.channels[-1]
-                planes = 16 * (2 ** stage)
+                planes = 16 * (2**stage)
                 stride = 2 if stage > 0 and iL == 0 else 1
                 module = block(iC, planes, stride)
                 self.channels.append(module.out_dim)
