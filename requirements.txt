@@ -26,3 +26,6 @@ tensorwatch
 # from zerocost
 transforms3d
 gdown
+
+nasbench_pytorch
+tornado
