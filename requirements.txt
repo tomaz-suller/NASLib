@@ -1,4 +1,5 @@
-ConfigSpace
+git+https://github.com/tomaz-suller/nasbench301.git@fix-naslib
+git+https://github.com/tomaz-suller/ConfigSpace.git@fix-naslib
 pyyaml
 networkx
 numpy
