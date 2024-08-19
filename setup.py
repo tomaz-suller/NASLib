@@ -32,13 +32,13 @@ with open("requirements.txt", "r") as f:
         requirements.append(line.strip())
 
 install_if_not_found(
-    "nasbench301",
-    "git+https://github.com/tomaz-suller/nasbench301.git@fix-naslib",
+    "ConfigSpace",
+    "git+https://github.com/tomaz-suller/ConfigSpace.git@fix-naslib",
 )
 
 install_if_not_found(
-    "ConfigSpace",
-    "git+https://github.com/tomaz-suller/ConfigSpace.git@fix-naslib",
+    "nasbench301",
+    "git+https://github.com/tomaz-suller/nasbench301.git@fix-naslib",
 )
 
 print("-- Building version " + version)
