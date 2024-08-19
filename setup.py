@@ -1,7 +1,20 @@
 import os
 import sys
 import subprocess
+from importlib import import_module
 from setuptools import setup, find_packages
+
+
+def install_if_not_found(module: str, install_from: str, user: bool = False):
+    try:
+        import_module(module)
+    except ModuleNotFoundError:
+        print(f"Installing {module}")
+        python_command = f"{sys.executable} -m pip install --upgrade".split()
+        if user:
+            python_command.append("--user")
+        python_command.append(install_from)
+        subprocess.run(python_command, check=False)
 
 
 cwd = os.path.dirname(os.path.abspath(__file__))
@@ -17,67 +30,16 @@ requirements = []
 with open("requirements.txt", "r") as f:
     for line in f:
         requirements.append(line.strip())
-git_nasbench301 = "git+https://github.com/automl/nasbench301@no_gin"
 
-try:
-    import nasbench301
-except ImportError:
-    print("Installing nasbench_pytorch")
-    if "--user" in sys.argv:
-        subprocess.run(
-            [
-                sys.executable,
-                "-m",
-                "pip",
-                "install",
-                "--upgrade",
-                "--user",
-                git_nasbench301,
-            ],
-            check=False,
-        )
-    else:
-        subprocess.run(
-            [sys.executable, "-m", "pip", "install", "--upgrade", git_nasbench301],
-            check=False,
-        )
+install_if_not_found(
+    "nasbench301",
+    "git+https://github.com/tomaz-suller/nasbench301.git@fix-naslib",
+)
 
-git_nasbench_pytorch = "git+https://github.com/romulus0914/NASBench-PyTorch@master"
-try:
-    import nasbench_pytorch
-except ImportError:
-    print("Installing nasbench_pytorch")
-    if "--user" in sys.argv:
-        subprocess.run(
-            [
-                sys.executable,
-                "-m",
-                "pip",
-                "install",
-                "--upgrade",
-                "--user",
-                git_nasbench_pytorch,
-            ],
-            check=False,
-        )
-    else:
-        subprocess.run(
-            [sys.executable, "-m", "pip", "install", "--upgrade", git_nasbench_pytorch],
-            check=False,
-        )
-
-# git_nasbench = "git+https://github.com/yashsmehta/nasbench.git@master"
-#
-# try:
-# import nasbench
-# except ImportError:
-# if '--user' in sys.argv:
-# subprocess.run([sys.executable, '-m', 'pip', 'install', '--upgrade',
-#'--user', git_nasbench], check=False)
-# else:
-# subprocess.run([sys.executable, '-m', 'pip', 'install', '--upgrade',
-# git_nasbench], check=False)
-
+install_if_not_found(
+    "ConfigSpace",
+    "git+https://github.com/tomaz-suller/ConfigSpace.git@fix-naslib",
+)
 
 print("-- Building version " + version)
 print(
