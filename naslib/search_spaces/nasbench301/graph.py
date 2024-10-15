@@ -355,6 +355,7 @@ class NasBench301SearchSpace(Graph):
         epoch: int = -1,
         full_lc: bool = False,
         dataset_api: dict = None,
+        with_noise: bool = False,
     ) -> Union[float, dict]:
         """
         Query results from nasbench 301
@@ -418,12 +419,16 @@ class NasBench301SearchSpace(Graph):
                 genotype = convert_compact_to_genotype(self.compact)
             if metric == Metric.VAL_ACCURACY:
                 val_acc = dataset_api["nb301_model"][0].predict(
-                    config=genotype, representation="genotype"
+                    config=genotype,
+                    representation="genotype",
+                    with_noise=with_noise,
                 )
                 return val_acc
             elif metric == Metric.TRAIN_TIME:
                 runtime = dataset_api["nb301_model"][1].predict(
-                    config=genotype, representation="genotype"
+                    config=genotype,
+                    representation="genotype",
+                    with_noise=with_noise,
                 )
                 return runtime
             else:
